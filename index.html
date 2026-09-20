@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photoshoot Wardrobe — Click Lounge Studio × House of Roan</title>
+<meta name="description" content="Check which House of Roan dresses are free for your Click Lounge Studio Prestige or Photographer package shoot.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+/* ── Click Lounge Studio tokens (from the main site) + House of Roan accent ── */
+:root{
+  --green:#2d6e5f; --green-dark:#1e4d42; --green-light:#4a9082;
+  --amber:#c49a1a; --amber-light:#d4b030;
+  --cream:#f5ede0; --cream-dark:#ede0cb; --warm-white:#faf6f0;
+  --rust:#b05a2a; --text-dark:#1a2e28; --text-mid:#4a6058; --text-light:#8fa89e;
+  /* House of Roan */
+  --blush:#fdf0ee; --blush-deep:#f5dcd8; --gold:#c5a436; --gold-ink:#8a701c;
+  --line:rgba(45,110,95,.12);
+  --booked-bg:#f8e3dc; --booked-ink:#9a4420;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--warm-white);color:var(--text-dark);overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
+main{flex:1}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2.5px solid var(--gold);outline-offset:2px;border-radius:6px}
+[hidden]{display:none!important}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(250,246,240,.96);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 1rem;height:54px;gap:.5rem}
+nav .brand{display:flex;align-items:center;height:54px}
+nav .brand img{height:26px;width:auto;display:block}
+nav .nav-links{display:flex;align-items:center;gap:.25rem}
+nav a,.nav-btn{font-size:.8rem;font-weight:600;letter-spacing:.03em;color:var(--text-mid);text-decoration:none;background:none;border:none;
+  padding:0 .8rem;height:54px;display:flex;align-items:center;border-bottom:2.5px solid transparent;transition:color .2s,border-color .2s;white-space:nowrap}
+nav a:hover,.nav-btn:hover{color:var(--green)}
+.staff-chip{display:inline-flex;align-items:center;gap:.4rem;background:var(--green);color:#fff;border-radius:100px;padding:.3rem .8rem;font-size:.72rem;font-weight:600;border:none;height:auto}
+.staff-chip:hover{background:var(--green-dark);color:#fff}
+
+/* DEMO BANNER */
+.demo-banner{background:var(--amber);color:#fff;text-align:center;font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.06em;padding:.45rem 1rem}
+
+/* HERO — blush band = House of Roan touch */
+.hero{background:var(--blush);padding:2.6rem 1.25rem 4.6rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:560px;height:560px;border-radius:50%;
+  background:radial-gradient(circle,rgba(197,164,54,.12) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%)}
+.eyebrow{font-family:'Space Mono',monospace;font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--rust);display:block;margin-bottom:1rem;position:relative}
+.lockup{display:flex;align-items:center;justify-content:center;gap:1.1rem;position:relative;margin-bottom:1.1rem}
+.lockup .cls{height:72px;width:auto;mix-blend-mode:multiply;border-radius:4px;cursor:pointer}
+@media(max-width:560px){.lockup{gap:.7rem}.lockup .cls{height:56px}.lockup .hor{height:66px}}
+.lockup .x{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-size:1.4rem}
+.lockup .hor{height:78px;width:auto;mix-blend-mode:multiply}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3rem);color:var(--green-dark);line-height:1.08;position:relative}
+.script{font-family:'Pinyon Script',cursive;color:var(--gold);font-size:clamp(1.6rem,4vw,2.2rem);line-height:1;display:block;margin-top:.2rem;position:relative}
+.gold-rule{display:flex;align-items:center;justify-content:center;gap:.7rem;margin:.9rem auto 0;position:relative;color:var(--gold-ink);
+  font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase}
+.gold-rule::before,.gold-rule::after{content:'';height:1px;width:38px;background:var(--gold)}
+.page-desc{max-width:540px;margin:.9rem auto 0;color:var(--text-mid);line-height:1.7;font-size:.93rem;position:relative}
+
+/* CONTROL CARD */
+.wrap{max-width:1100px;margin:0 auto;padding:0 1rem}
+.control{background:#fff;border-radius:18px;border:1px solid var(--line);box-shadow:0 18px 44px rgba(45,110,95,.10);
+  margin-top:-3rem;position:relative;z-index:2;overflow:hidden}
+.seg-row{padding:1rem 1.1rem .9rem;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:.6rem .9rem}
+.seg-label{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-light)}
+.seg{display:inline-flex;background:var(--cream);border-radius:100px;padding:3px;gap:2px}
+@media(max-width:560px){.seg-row{flex-direction:column;align-items:stretch}.seg{display:grid;grid-template-columns:1fr 1fr;border-radius:14px}.seg button{white-space:normal;border-radius:11px;padding:.6rem .5rem;font-size:.76rem;line-height:1.25}}
+.seg button{flex:1;white-space:nowrap;border:none;background:none;border-radius:100px;padding:.5rem .95rem;font-size:.8rem;font-weight:600;color:var(--text-mid);transition:background .2s,color .2s}
+.seg-price{font-weight:500;opacity:.8}
+@media(max-width:560px){.seg-price{display:block;font-size:.7rem}}
+.seg button[aria-pressed="true"]{background:var(--green);color:#fff;box-shadow:0 2px 8px rgba(45,110,95,.25)}
+.sub-tabs{display:flex;overflow-x:auto;background:var(--cream-dark);padding:0 .6rem;scrollbar-width:none}
+.sub-tabs::-webkit-scrollbar{display:none}
+.sub-tab{font-size:.82rem;font-weight:600;color:var(--text-mid);background:none;border:none;border-bottom:3px solid transparent;
+  padding:.85rem 1rem;white-space:nowrap;transition:color .2s,border-color .2s}
+.sub-tab[aria-selected="true"],.sub-tab:hover{color:var(--green);border-bottom-color:var(--green)}
+.panel-tools{padding:1rem 1.1rem;display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:.3rem;min-width:0}
+.field label,.field .lbl{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-light)}
+.input{border:1px solid rgba(45,110,95,.22);background:var(--warm-white);border-radius:10px;padding:.62rem .8rem;font-size:.92rem;min-height:42px;width:100%}
+.input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(45,110,95,.12)}
+.window-note{font-size:.84rem;color:var(--text-mid);line-height:1.5;align-self:center}
+.window-note b{color:var(--green-dark)}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.chip{border:1px solid rgba(45,110,95,.2);background:#fff;border-radius:100px;padding:.36rem .8rem;font-size:.76rem;font-weight:600;color:var(--text-mid)}
+.chip[aria-pressed="true"]{background:var(--green-dark);border-color:var(--green-dark);color:#fff}
+.toggle{display:inline-flex;align-items:center;gap:.45rem;font-size:.82rem;color:var(--text-mid);font-weight:500;cursor:pointer;user-select:none}
+.toggle input{accent-color:var(--green);width:16px;height:16px}
+
+/* RESULTS */
+.results-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1.8rem .2rem .4rem}
+.results-title{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--green-dark)}
+.results-count{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--text-mid)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.2rem;padding:.8rem 0 3rem}
+@media(max-width:520px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}}
+
+.card{background:#fff;border-radius:18px;overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s;position:relative}
+.card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(45,110,95,.13)}
+.card.is-booked .photo img,.card.is-booked .ph{filter:grayscale(.55) opacity(.75)}
+.photo{aspect-ratio:4/5;background:var(--blush);position:relative;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;
+  background:linear-gradient(160deg,var(--blush),var(--blush-deep));color:var(--gold)}
+.ph span{font-family:'Pinyon Script',cursive;font-size:2.6rem;line-height:1}
+.ph small{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-ink)}
+.badge{position:absolute;top:.7rem;left:.7rem;font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:.3rem .65rem;border-radius:100px;display:inline-flex;align-items:center;gap:.3rem}
+.badge.ok{background:var(--green);color:#fff}
+.badge.no{background:var(--booked-bg);color:var(--booked-ink)}
+.card-body{padding:.9rem 1rem 1rem;display:flex;flex-direction:column;gap:.3rem;flex:1}
+.card-name{font-family:'Playfair Display',serif;font-size:1.08rem;color:var(--green-dark);line-height:1.2}
+.card-meta{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light)}
+.card-price{font-family:'Space Mono',monospace;font-size:.95rem;font-weight:700;color:var(--amber)}
+.card-price small{font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:500;color:var(--text-light);margin-left:.25rem}
+.card-free{font-size:.76rem;color:var(--booked-ink);font-weight:500}
+.card .btn{margin-top:auto}
+@media(max-width:520px){.card-body{padding:.7rem .75rem .8rem}.card-name{font-size:.95rem}.card-meta{font-size:.54rem}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;border:none;border-radius:10px;padding:.72rem 1rem;font-weight:600;font-size:.84rem;
+  letter-spacing:.03em;text-decoration:none;transition:background .2s,color .2s,border-color .2s;width:100%;min-height:42px}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:var(--green-dark)}
+.btn-line{background:#fff;color:var(--green);border:1.5px solid rgba(45,110,95,.3)}.btn-line:hover{border-color:var(--green)}
+.btn-gold{background:linear-gradient(135deg,#c8a020,#a87818);color:#fff}.btn-gold:hover{filter:brightness(1.05)}
+.btn-danger{background:#fff;color:var(--booked-ink);border:1.5px solid #e4b9a8}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-sm{padding:.45rem .7rem;min-height:34px;font-size:.76rem;width:auto;border-radius:8px}
+
+.empty,.loading{text-align:center;padding:3rem 1rem;color:var(--text-mid);font-size:.92rem;line-height:1.6}
+.empty .script{font-size:2rem;margin-bottom:.4rem}
+.skeleton{background:linear-gradient(90deg,var(--cream) 25%,var(--cream-dark) 50%,var(--cream) 75%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:18px;aspect-ratio:4/6}
+@keyframes sh{to{background-position:-200% 0}}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(26,46,40,.55);z-index:500;display:flex;align-items:flex-end;justify-content:center;padding:0;animation:fade .2s}
+@media(min-width:640px){.overlay{align-items:center;padding:1.5rem}}
+@keyframes fade{from{opacity:0}}
+.modal{background:var(--warm-white);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;position:relative;animation:up .25s ease}
+@media(min-width:640px){.modal{border-radius:20px}}
+@keyframes up{from{transform:translateY(24px);opacity:0}}
+.modal-head{background:var(--blush);padding:1.2rem 3.2rem 1rem 1.2rem;display:flex;gap:.9rem;align-items:center;border-bottom:1px solid var(--blush-deep)}
+.modal-head .thumb{width:58px;height:72px;border-radius:10px;overflow:hidden;flex-shrink:0;background:var(--blush-deep)}
+.modal-head .thumb img{width:100%;height:100%;object-fit:cover}
+.modal-head .thumb .ph span{font-size:1.5rem}.modal-head .thumb .ph small{display:none}
+.modal-title{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--green-dark);line-height:1.2}
+.modal-sub{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-ink);margin-top:.2rem}
+.close{position:absolute;top:.8rem;right:.8rem;width:36px;height:36px;border-radius:50%;border:none;background:#fff;color:var(--text-mid);font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.modal-body{padding:1.1rem 1.2rem 1.4rem}
+
+/* CALENDAR */
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem}
+.cal-month{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--green-dark)}
+.cal-nav{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--green);font-size:1rem}
+.cal-nav:disabled{opacity:.35;cursor:not-allowed}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal .dow{font-family:'Space Mono',monospace;font-size:.58rem;text-align:center;color:var(--text-light);padding:.2rem 0 .35rem;letter-spacing:.05em}
+.day{aspect-ratio:1;border-radius:10px;border:1px solid transparent;background:none;font-size:.86rem;font-weight:500;display:flex;align-items:center;justify-content:center;position:relative}
+.day.can{background:#fff;border-color:rgba(45,110,95,.28);color:var(--green-dark);font-weight:600}
+.day.can:hover{background:rgba(45,110,95,.08)}
+.day.booked{background:var(--booked-bg);color:var(--booked-ink);cursor:not-allowed}
+.day.booked::after{content:'';position:absolute;left:22%;right:22%;top:50%;height:1.5px;background:currentColor;opacity:.55;transform:rotate(-20deg)}
+.day.off{color:#b8c4be;cursor:not-allowed}
+.day.today{box-shadow:inset 0 0 0 2px var(--gold)}
+.day.sel{background:var(--green)!important;color:#fff!important;border-color:var(--green)}
+.day.inwin{background:rgba(45,110,95,.14)}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin-top:.8rem;font-size:.72rem;color:var(--text-mid)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-2px;margin-right:.3rem}
+.pick{margin-top:1rem;background:#fff;border:1px solid var(--line);border-radius:14px;padding:1rem}
+.pick-line{font-size:.88rem;color:var(--text-mid);line-height:1.6}
+.pick-line b{color:var(--green-dark)}
+.pick .actions{display:grid;gap:.5rem;margin-top:.8rem}
+
+/* STAFF */
+.staff-bar{display:flex;flex-wrap:wrap;gap:.6rem;align-items:flex-end;padding:1rem 1.1rem}
+.rent-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem 0 3rem}
+.rent{background:#fff;border:1px solid var(--line);border-radius:14px;padding:.9rem 1rem;display:grid;grid-template-columns:62px 1fr;gap:.9rem;align-items:start}
+.rent.dim{opacity:.6}
+.date-block{background:var(--cream);border-radius:10px;text-align:center;padding:.45rem .2rem}
+.date-block .m{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--rust)}
+.date-block .d{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--green-dark);line-height:1.1}
+.rent-top{display:flex;flex-wrap:wrap;gap:.35rem .6rem;align-items:center}
+.rent-name{font-weight:600;font-size:.95rem}
+.rent-dress{font-family:'Playfair Display',serif;color:var(--green-dark);font-size:.98rem;margin-top:.1rem}
+.rent-meta{font-size:.78rem;color:var(--text-mid);margin-top:.25rem;line-height:1.55}
+.st{font-family:'Space Mono',monospace;font-size:.56rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.22rem .55rem;border-radius:100px}
+.st-Reserved{background:#fff3cf;color:#7a5a00}.st-Confirmed{background:rgba(45,110,95,.14);color:var(--green-dark)}
+.st-Picked{background:#dde8f7;color:#244a7a}.st-Returned{background:#eceeed;color:#5d6b66}.st-Cancelled{background:var(--booked-bg);color:var(--booked-ink)}
+.st-Inquiry{background:var(--cream);color:var(--text-mid)}
+.co{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-ink);border:1px solid var(--gold);border-radius:100px;padding:.18rem .5rem}
+.rent-actions{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.7rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.form-grid .full{grid-column:1/-1}
+@media(max-width:480px){.form-grid{grid-template-columns:1fr}}
+.hint{font-size:.76rem;color:var(--text-light);line-height:1.5}
+.err{color:var(--booked-ink);font-size:.82rem;min-height:1.1em}
+
+/* TOAST */
+.toast{position:fixed;left:50%;bottom:1.2rem;transform:translateX(-50%);background:var(--green-dark);color:#fff;padding:.75rem 1.1rem;border-radius:12px;
+  font-size:.85rem;z-index:900;box-shadow:0 10px 30px rgba(0,0,0,.2);max-width:calc(100% - 2rem);animation:up .25s}
+.toast.bad{background:var(--booked-ink)}
+
+/* FOOTER */
+footer{background:var(--green-dark);color:#fff;padding:2.2rem 1.25rem;text-align:center}
+.foot-lockup{display:flex;align-items:center;justify-content:center;gap:.9rem;margin-bottom:.9rem}
+.foot-lockup img{height:28px;width:auto;filter:brightness(0) invert(1);opacity:.85}
+.foot-lockup .x{font-family:'Playfair Display',serif;font-style:italic;color:var(--amber-light)}
+.foot-hor{font-family:'Pinyon Script',cursive;font-size:1.7rem;color:var(--gold);line-height:1}
+.footer-contact{font-size:.8rem;color:rgba(255,255,255,.65);line-height:1.9}
+.footer-contact a{color:rgba(255,255,255,.85)}
+.footer-bottom{font-size:.7rem;color:rgba(255,255,255,.35);border-top:1px solid rgba(255,255,255,.1);padding-top:1rem;margin-top:1rem}
+</style>
+</head>
+<body>
+
+<div class="demo-banner" id="demoBanner" hidden>DEMO MODE · SAMPLE DRESSES · SET API_URL TO CONNECT THE REAL TRACKER</div>
+
+<nav aria-label="Main">
+  <a class="brand" href="https://hellotalentff-max.github.io/clicklounge/" aria-label="Click Lounge Studio home"><img src="cls-logo.png" alt="Click Lounge Studio"></a>
+  <div class="nav-links">
+    <a href="https://hellotalentff-max.github.io/clicklounge/">← Main site</a>
+    <button class="nav-btn" id="staffBtn" type="button">Staff</button>
+  </div>
+</nav>
+
+<main>
+  <header class="hero">
+    <span class="eyebrow">Photoshoot Wardrobe</span>
+    <div class="lockup">
+      <video class="cls" poster="cls-logo.png" autoplay muted playsinline preload="auto"
+           aria-label="Click Lounge Studio" title="Click Lounge Studio">
+        <source src="cls-logo.mp4" type="video/mp4">
+        <source src="cls-logo.webm" type="video/webm">
+      </video>
+      <span class="x" aria-hidden="true">×</span>
+      <img class="hor" src="hor-logo.png" alt="House of Roan Dress Rental Studio">
+    </div>
+    <h1 class="page-title">Find your dress</h1>
+    <span class="script">curated by House of Roan</span>
+    <p class="page-desc">Pick your shoot date to see which gowns are free, or browse the collection and tap a dress to see its open dates.</p>
+  </header>
+
+  <div class="wrap">
+    <section class="control" aria-label="Search">
+      <div class="seg-row">
+        <span class="seg-label">My shoot package</span>
+        <div class="seg" role="group" aria-label="Renting for" id="coSeg">
+          <button type="button" data-co="CLS Prestige" aria-pressed="true">Prestige package <span class="seg-price">· dress included</span></button>
+          <button type="button" data-co="CLS Photographer" aria-pressed="false">Photographer package <span class="seg-price">· ₱700</span></button>
+        </div>
+      </div>
+      <div class="sub-tabs" role="tablist">
+        <button class="sub-tab" role="tab" id="tab-date" aria-selected="true" aria-controls="panel-date" data-tab="date">By date</button>
+        <button class="sub-tab" role="tab" id="tab-browse" aria-selected="false" aria-controls="panel-browse" data-tab="browse">All dresses</button>
+        <button class="sub-tab" role="tab" id="tab-staff" aria-selected="false" aria-controls="panel-staff" data-tab="staff" hidden>Bookings</button>
+      </div>
+
+      <div id="panel-date" role="tabpanel" aria-labelledby="tab-date">
+        <div class="panel-tools">
+          <div class="field" style="width:190px">
+            <label for="dateInput" id="dateLabel">Shoot date</label>
+            <input class="input" type="date" id="dateInput">
+          </div>
+          <p class="window-note" id="windowNote">Choose a date to check availability.</p>
+        </div>
+      </div>
+      <div id="panel-browse" role="tabpanel" aria-labelledby="tab-browse" hidden></div>
+      <div id="panel-staff" role="tabpanel" aria-labelledby="tab-staff" hidden>
+        <div class="staff-bar">
+          <div class="field" style="width:150px;flex:1 1 130px"><label for="fromInput">From</label><input class="input" type="date" id="fromInput"></div>
+          <div class="field" style="width:150px;flex:1 1 130px"><label for="toInput">To</label><input class="input" type="date" id="toInput"></div>
+          <label class="toggle"><input type="checkbox" id="hideClosed" checked> Hide returned &amp; cancelled</label>
+          <button class="btn btn-gold btn-sm" type="button" id="newRentalBtn" style="margin-left:auto">＋ New reservation</button>
+        </div>
+      </div>
+
+      <div class="panel-tools" id="filters" style="border-top:1px solid var(--line);padding-top:.8rem">
+        <div class="chips" id="catChips" role="group" aria-label="Category"></div>
+        <label class="toggle" id="availToggleWrap"><input type="checkbox" id="availOnly"> Available only</label>
+      </div>
+    </section>
+
+    <div class="results-head">
+      <h2 class="results-title" id="resultsTitle">Dresses</h2>
+      <span class="results-count" id="resultsCount" aria-live="polite"></span>
+    </div>
+    <div id="results"></div>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-lockup">
+    <img src="cls-logo.png" alt="Click Lounge Studio">
+    <span class="x" aria-hidden="true">×</span>
+    <span class="foot-hor">House of Roan</span>
+  </div>
+  <div class="footer-contact">
+    U302 Decoro Bldg. Circumferential Rd. San Roque, Antipolo City<br>
+    +63976 022 1462 · <a href="mailto:clickloungestudio@gmail.com">clickloungestudio@gmail.com</a>
+  </div>
+  <div class="footer-bottom">© 2026 Click Lounge Studio · Dresses by House of Roan Dress Rental Studio</div>
+</footer>
+
+<div id="modalRoot"></div>
+<div id="toastRoot" aria-live="assertive"></div>
+
+<script>
+/* ═════════════════════ CONFIG ═════════════════════ */
+const CONFIG = {
+  API_URL: '',   // ← paste the Apps Script Web app URL (ends in /exec). Blank = demo mode with sample dresses.
+  MESSENGER: 'https://m.me/clicklounge.studio', // where "Reserve this dress" sends clients
+  PHOTO_FOLDER: 'dresses/',   // photos named after the dress (dresses/amelia.jpg) are picked up automatically when Photo URL is blank
+  PHOTO_EXT: ['jpg', 'jpeg', 'png', 'webp'],
+  CO_LABEL: { 'CLS Prestige': 'Prestige package', 'CLS Photographer': 'Photographer package' },
+  TZ: 'Asia/Manila'
+};
+
+/* ═════════════════════ DATE HELPERS (day numbers, Manila) ═════════════════════ */
+const isoToDay = s => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s || ''); return m ? Date.UTC(+m[1], +m[2]-1, +m[3]) / 864e5 : null; };
+const dayToIso = n => new Date(n * 864e5).toISOString().slice(0, 10);
+const todayIso = () => new Intl.DateTimeFormat('en-CA', { timeZone: CONFIG.TZ }).format(new Date());
+const fmt = (iso, o) => new Date(isoToDay(iso) * 864e5).toLocaleDateString('en-US', Object.assign({ timeZone: 'UTC', month: 'short', day: 'numeric' }, o || {}));
+const fmtLong = iso => fmt(iso, { weekday: 'short' });
+const peso = n => n == null || n === '' ? '' : '₱' + Number(n).toLocaleString('en-PH');
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+
+/* ═════════════════════ API (real or demo) ═════════════════════ */
+const store = { get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
+                set(k, v) { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, v); } catch (e) {} } };
+
+async function apiGet(params) {
+  if (!CONFIG.API_URL) return Demo.get(params);
+  const res = await fetch(CONFIG.API_URL + '?' + new URLSearchParams(params));
+  const j = await res.json();
+  if (!j.ok) throw new Error(j.error);
+  return j.data;
+}
+async function apiPost(body) {
+  body = Object.assign({ pin: state.pin }, body);
+  if (!CONFIG.API_URL) return Demo.post(body);
+  const res = await fetch(CONFIG.API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) });
+  const j = await res.json();
+  if (!j.ok) throw new Error(j.error);
+  return j.data;
+}
+
+/* ═════════════════════ STATE ═════════════════════ */
+const state = { co: 'CLS Prestige', tab: 'date', date: null, cat: 'All', availOnly: false, config: null, dresses: [], avail: null,
+                pin: store.get('hor_pin'), rentals: [] };
+
+/* ═════════════════════ RENDER: shared ═════════════════════ */
+const $ = s => document.querySelector(s);
+function driveImg(url) {
+  if (!url) return '';
+  const m = /drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]+)/.exec(url);
+  return m ? 'https://drive.google.com/thumbnail?id=' + m[1] + '&sz=w800' : url;
+}
+const slug = n => String(n || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+function photoHtml(d) {
+  // Photo URL if given, otherwise look for dresses/<dress-name>.jpg (then .jpeg/.png/.webp)
+  const exts = window._okExt ? [window._okExt].concat(CONFIG.PHOTO_EXT.filter(e => e !== window._okExt)) : CONFIG.PHOTO_EXT;
+  const list = d.photo ? [driveImg(d.photo)] : exts.map(e => CONFIG.PHOTO_FOLDER + slug(d.name) + '.' + e);
+  const ph = `<div class="ph"><span>${esc((d.name || '?').trim()[0])}</span><small>House of Roan</small></div>`;
+  const attr = v => v.replace(/'/g, '&#39;');
+  return `<img src="${esc(list[0])}" alt="${esc(d.name)}" loading="lazy" onerror="dressImgFail(this)" onload="dressImgOk(this)"
+    data-rest='${attr(JSON.stringify(list.slice(1)))}' data-ph='${attr(ph)}'>`;
+}
+/** Try the next file name; when none are left, show the monogram placeholder. */
+window.dressImgOk = function (img) {   // remember which extension worked, so other cards try it first
+  const m = /\.(jpg|jpeg|png|webp)(\?|$)/i.exec(img.getAttribute('src') || '');
+  if (m && !img.dataset.rest.includes('"')) return; // photo came from Photo URL, nothing to learn
+  if (m) window._okExt = m[1].toLowerCase();
+};
+window.dressImgFail = function (img) {
+  let rest = []; try { rest = JSON.parse(img.dataset.rest || '[]'); } catch (e) {}
+  if (rest.length) { img.dataset.rest = JSON.stringify(rest.slice(1)); img.src = rest[0]; }
+  else img.outerHTML = img.dataset.ph;
+};
+function rateFor(d) {
+  const rule = state.config && state.config.coRules[state.co];
+  const r = d.rate != null ? d.rate : rule && rule.rate != null ? rule.rate : d.regularRate;
+  if (r == null) return '';
+  return r === 0 ? `<div class="card-price">FREE<small>included in Prestige</small></div>`
+                 : `<div class="card-price">${peso(r)}<small>dress rental</small></div>`;
+}
+function toast(msg, bad) {
+  const t = document.createElement('div'); t.className = 'toast' + (bad ? ' bad' : ''); t.textContent = msg;
+  $('#toastRoot').replaceChildren(t); setTimeout(() => t.remove(), 3800);
+}
+function skeletons(n) { $('#results').innerHTML = `<div class="grid">${'<div class="skeleton"></div>'.repeat(n)}</div>`; }
+
+function renderChips() {
+  const cats = ['All', ...new Set(state.dresses.map(d => d.category).filter(Boolean))];
+  if (!cats.includes(state.cat)) state.cat = 'All';
+  $('#catChips').innerHTML = cats.length > 2 ? cats.map(c => `<button type="button" class="chip" aria-pressed="${c === state.cat}" data-cat="${esc(c)}">${esc(c)}</button>`).join('') : '';
+}
+function filtered(list) {
+  return list.filter(d => (state.cat === 'All' || d.category === state.cat) && (!state.availOnly || d.status !== 'Booked'));
+}
+
+/* ═════════════════════ TAB: date ═════════════════════ */
+async function loadDate() {
+  if (!state.date) { $('#results').innerHTML = `<div class="empty"><span class="script">Pick a date</span>Choose your shoot date above.</div>`; $('#resultsCount').textContent = ''; return; }
+  skeletons(4);
+  try {
+    state.avail = await apiGet({ action: 'availability', date: state.date, co: state.co });
+    const a = state.avail;
+    $('#windowNote').innerHTML = a.pickup === a.returnBy
+      ? `Pick up and return on <b>${fmtLong(a.pickup)}</b>`
+      : `Pick up <b>${fmtLong(a.pickup)}</b> · return by <b>${fmtLong(a.returnBy)}</b>`;
+    renderDate();
+  } catch (e) { $('#results').innerHTML = `<div class="empty">Couldn't check availability.<br><small>${esc(e.message)}</small></div>`; }
+}
+function renderDate() {
+  const a = state.avail; if (!a) return;
+  const list = filtered(a.dresses);
+  $('#resultsTitle').textContent = 'For ' + fmt(a.eventDate, { weekday: 'long', month: 'long', day: 'numeric' });
+  $('#resultsCount').textContent = `${a.available} of ${a.dresses.length} available`;
+  if (!list.length) { $('#results').innerHTML = `<div class="empty"><span class="script">Oh no</span>No dresses match. Try another date or category.</div>`; return; }
+  $('#results').innerHTML = `<div class="grid">${list.map(d => {
+    const ok = d.status === 'Available';
+    return `<article class="card ${ok ? '' : 'is-booked'}">
+      <div class="photo">${photoHtml(d)}<span class="badge ${ok ? 'ok' : 'no'}">${ok ? '● Available' : 'Booked'}</span></div>
+      <div class="card-body">
+        <h3 class="card-name">${esc(d.name)}</h3>
+        <div class="card-meta">${esc([d.category, d.size, d.color].filter(Boolean).join(' · '))}</div>
+        ${rateFor(d)}
+        ${ok ? '' : `<div class="card-free">Free again from ${fmt(d.nextFreeFrom)}</div>`}
+        ${ok ? `<button class="btn btn-green" data-reserve="${esc(d.name)}">${state.pin ? 'Reserve' : 'Reserve this dress'}</button>`
+             : `<button class="btn btn-line" data-cal="${esc(d.name)}">See open dates</button>`}
+      </div></article>`; }).join('')}</div>`;
+}
+
+/* ═════════════════════ TAB: browse ═════════════════════ */
+function renderBrowse() {
+  const list = filtered(state.dresses);
+  $('#resultsTitle').textContent = 'The collection';
+  $('#resultsCount').textContent = `${state.dresses.length} dress${state.dresses.length === 1 ? '' : 'es'}`;
+  if (!list.length) { $('#results').innerHTML = `<div class="empty"><span class="script">Coming soon</span>No dresses listed yet.</div>`; return; }
+  $('#results').innerHTML = `<div class="grid">${list.map(d => `<article class="card">
+      <div class="photo">${photoHtml(d)}</div>
+      <div class="card-body">
+        <h3 class="card-name">${esc(d.name)}</h3>
+        <div class="card-meta">${esc([d.category, d.size, d.color].filter(Boolean).join(' · '))}</div>
+        ${rateFor(d)}
+        <button class="btn btn-line" data-cal="${esc(d.name)}">See open dates</button>
+      </div></article>`).join('')}</div>`;
+}
+
+/* ═════════════════════ MODAL: dress calendar ═════════════════════ */
+function openModal(html, label) {
+  const root = $('#modalRoot'); const prev = document.activeElement;
+  root.innerHTML = `<div class="overlay" role="dialog" aria-modal="true" aria-label="${esc(label)}"><div class="modal"><button class="close" aria-label="Close" data-close>✕</button>${html}</div></div>`;
+  const ov = root.firstChild;
+  const close = () => { root.innerHTML = ''; document.removeEventListener('keydown', onKey); prev && prev.focus && prev.focus(); };
+  const onKey = e => { if (e.key === 'Escape') close(); };
+  ov.addEventListener('click', e => { if (e.target === ov || e.target.closest('[data-close]')) close(); });
+  document.addEventListener('keydown', onKey);
+  setTimeout(() => (ov.querySelector('.close')).focus(), 30);
+  return { el: ov, close };
+}
+
+async function openCalendar(name, preselect) {
+  const d = state.dresses.find(x => x.name === name) || { name };
+  const t = todayIso(); const curMonth = t.slice(0, 7);
+  let month = (preselect || state.date || t).slice(0, 7); if (month < curMonth) month = curMonth;
+  let sel = null, data = null;
+  const m = openModal(`
+    <div class="modal-head"><div class="thumb">${photoHtml(d)}</div>
+      <div><div class="modal-title">${esc(d.name)}</div><div class="modal-sub">${esc([d.category, d.size].filter(Boolean).join(' · '))} · ${esc(CONFIG.CO_LABEL[state.co] || state.co)}</div></div></div>
+    <div class="modal-body">
+      <div class="cal-head"><button class="cal-nav" data-nav="-1" aria-label="Previous month">‹</button><div class="cal-month" id="calMonth"></div><button class="cal-nav" data-nav="1" aria-label="Next month">›</button></div>
+      <div class="cal" id="calGrid"><div class="loading" style="grid-column:1/-1">Loading…</div></div>
+      <div class="legend"><span><i style="background:#fff;border:1px solid rgba(45,110,95,.4)"></i>Open for your shoot</span><span><i style="background:var(--booked-bg)"></i>Booked / cleaning</span><span><i style="background:none;border:1px solid #d5ddd9"></i>Not enough free days</span></div>
+      <div id="pickBox"></div>
+    </div>`, d.name + ' availability');
+  const el = m.el;
+
+  async function load() {
+    el.querySelector('#calMonth').textContent = new Date(isoToDay(month + '-01') * 864e5).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', year: 'numeric' });
+    el.querySelector('[data-nav="-1"]').disabled = month <= curMonth;
+    el.querySelector('#calGrid').innerHTML = '<div class="loading" style="grid-column:1/-1;padding:2rem">Loading…</div>';
+    try { data = await apiGet({ action: 'dressCalendar', dress: d.name, month, co: state.co }); draw(); }
+    catch (e) { el.querySelector('#calGrid').innerHTML = `<div class="empty" style="grid-column:1/-1">${esc(e.message)}</div>`; }
+  }
+  function draw() {
+    const rule = (state.config && state.config.coRules[state.co]) || { days: 1, lead: 0 };
+    const first = isoToDay(month + '-01'); const pad = (new Date(first * 864e5).getUTCDay() + 6) % 7; // Mon-first
+    let win = null;
+    if (sel) { const s = isoToDay(sel) - rule.lead; win = [s, s + rule.days - 1]; }
+    let h = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(x => `<div class="dow">${x}</div>`).join('') + '<div></div>'.repeat(pad);
+    data.days.forEach(x => {
+      const n = isoToDay(x.date), cls = x.canBook ? 'can' : x.booked ? 'booked' : 'off';
+      const extra = (x.date === t ? ' today' : '') + (x.date === sel ? ' sel' : win && n >= win[0] && n <= win[1] ? ' inwin' : '');
+      const label = fmt(x.date, { weekday: 'long', month: 'long' }) + (x.canBook ? ', available' : x.booked ? ', booked' : ', unavailable');
+      h += `<button class="day ${cls}${extra}" ${x.canBook ? `data-day="${x.date}"` : 'disabled'} aria-label="${label}">${+x.date.slice(8)}</button>`;
+    });
+    el.querySelector('#calGrid').innerHTML = h;
+    const box = el.querySelector('#pickBox');
+    if (!sel) { box.innerHTML = `<p class="hint" style="margin-top:.9rem">Tap an open date to pick your shoot day.</p>`; return; }
+    const pu = dayToIso(isoToDay(sel) - rule.lead), rt = dayToIso(isoToDay(sel) - rule.lead + rule.days - 1);
+    box.innerHTML = `<div class="pick"><div class="pick-line">Shoot: <b>${fmtLong(sel)}</b><br>
+        Pick up <b>${fmtLong(pu)}</b> · return by <b>${fmtLong(rt)}</b>${rateFor(d) ? '<br>' + rateFor(d).replace('card-price', 'card-price" style="margin-top:.3rem') : ''}</div>
+      <div class="actions"><button class="btn btn-green" data-reserve="${esc(d.name)}" data-date="${sel}">${state.pin ? 'Reserve for a client' : 'Reserve this dress'}</button></div></div>`;
+  }
+  el.addEventListener('click', e => {
+    const nav = e.target.closest('[data-nav]'); const day = e.target.closest('[data-day]');
+    if (nav && !nav.disabled) { const [y, mo] = month.split('-').map(Number); const dt = new Date(Date.UTC(y, mo - 1 + Number(nav.dataset.nav), 1)); month = dt.toISOString().slice(0, 7); load(); }
+    if (day) { sel = day.dataset.day; draw(); el.querySelector('#pickBox').scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+  });
+  if (preselect) sel = preselect;
+  load();
+}
+
+/* ═════════════════════ RESERVE ═════════════════════ */
+function reserve(name, date) {
+  date = date || state.date;
+  if (state.pin) return openRentalForm({ dress: name, eventDate: date, co: state.co });
+  // Public: hand off to Messenger with the details copied
+  const msg = `Hi! I'd like to reserve "${name}" for my ${CONFIG.CO_LABEL[state.co] || 'photo'} shoot on ${fmt(date, { weekday: 'long', month: 'long', year: 'numeric' })}.`;
+  const d = state.dresses.find(x => x.name === name) || { name };
+  const m = openModal(`<div class="modal-head"><div class="thumb">${photoHtml(d)}</div><div><div class="modal-title">Reserve ${esc(name)}</div><div class="modal-sub">${esc(fmtLong(date))}</div></div></div>
+    <div class="modal-body">
+      <p class="pick-line">Send us this message and we'll hold the dress for you. A booking is only confirmed once we reply.</p>
+      <div class="pick" style="font-size:.88rem;line-height:1.6;color:var(--text-dark)" id="msgText">${esc(msg)}</div>
+      <div class="pick actions" style="border:none;background:none;padding:0">
+        <a class="btn btn-green" href="${esc(CONFIG.MESSENGER)}" target="_blank" rel="noopener" id="msgGo">Copy &amp; open Messenger</a>
+        <a class="btn btn-line" href="https://hellotalentff-max.github.io/clicklounge/book.html">Not booked yet? Book your shoot</a>
+      </div></div>`, 'Reserve');
+  m.el.querySelector('#msgGo').addEventListener('click', () => { navigator.clipboard && navigator.clipboard.writeText(msg).then(() => toast('Message copied, paste it in Messenger'), () => {}); });
+}
+
+function openRentalForm(pre) {
+  const t = todayIso();
+  const opts = state.dresses.map(d => `<option ${d.name === pre.dress ? 'selected' : ''}>${esc(d.name)}</option>`).join('');
+  const coOpts = Object.keys((state.config && state.config.coRules) || { 'CLS Prestige': 1, 'CLS Photographer': 1 }).map(c => `<option ${c === pre.co ? 'selected' : ''}>${esc(c)}</option>`).join('');
+  const m = openModal(`<div class="modal-head"><div><div class="modal-title">New reservation</div><div class="modal-sub">Held for ${(state.config && state.config.holdHours) || 48} hours until confirmed</div></div></div>
+    <form class="modal-body" id="rentForm" novalidate>
+      <div class="form-grid">
+        <div class="field full"><label for="f-dress">Dress</label><select class="input" id="f-dress" name="dress" required>${opts}</select></div>
+        <div class="field"><label for="f-date">Event / shoot date</label><input class="input" type="date" id="f-date" name="eventDate" min="${t}" value="${esc(pre.eventDate || '')}" required></div>
+        <div class="field"><label for="f-co">C/O</label><select class="input" id="f-co" name="co">${coOpts}</select></div>
+        <div class="field full"><label for="f-renter">Name of renter</label><input class="input" id="f-renter" name="renter" required autocomplete="off"></div>
+        <div class="field"><label for="f-contact">Contact no.</label><input class="input" id="f-contact" name="contact" inputmode="tel" autocomplete="off"></div>
+        <div class="field"><label for="f-cls">CLS booking ID</label><input class="input" id="f-cls" name="clsBookingId" autocomplete="off"></div>
+        <div class="field"><label for="f-pu">Pick-up <span style="text-transform:none;letter-spacing:0">(optional)</span></label><input class="input" type="date" id="f-pu" name="pickup" min="${t}"></div>
+        <div class="field"><label for="f-rt">Return <span style="text-transform:none;letter-spacing:0">(optional)</span></label><input class="input" type="date" id="f-rt" name="returnDate" min="${t}"></div>
+        <div class="field full"><label for="f-notes">Notes</label><input class="input" id="f-notes" name="notes" autocomplete="off"></div>
+        <p class="hint full" id="f-window"></p>
+        <p class="err full" id="f-err" role="alert"></p>
+        <div class="full"><button class="btn btn-green" type="submit" id="f-submit">Reserve dress</button></div>
+      </div></form>`, 'New reservation');
+  const f = m.el.querySelector('#rentForm');
+  const upd = () => {
+    const r = state.config && state.config.coRules[f.co.value]; const ev = isoToDay(f.eventDate.value);
+    if (!r || ev == null) { f.querySelector('#f-window').textContent = 'Leave pick-up / return blank to use the standard rental window.'; return; }
+    const s = f.pickup.value ? isoToDay(f.pickup.value) : ev - r.lead, e = f.returnDate.value ? isoToDay(f.returnDate.value) : s + r.days - 1;
+    f.querySelector('#f-window').textContent = `Pick up ${fmtLong(dayToIso(s))} · return by ${fmtLong(dayToIso(e))} · dress free again ${fmtLong(dayToIso(e + (state.config.cleaningDays || 0) + 1))}`;
+  };
+  f.addEventListener('input', upd); upd();
+  f.addEventListener('submit', async e => {
+    e.preventDefault();
+    const err = f.querySelector('#f-err'); err.textContent = '';
+    if (!f.eventDate.value) return err.textContent = 'Pick the event date.';
+    if (!f.renter.value.trim()) return err.textContent = 'Enter the renter\'s name.';
+    const btn = f.querySelector('#f-submit'); btn.disabled = true; btn.textContent = 'Reserving…';
+    const body = { action: 'reserve' }; new FormData(f).forEach((v, k) => { if (v !== '') body[k] = v; });
+    try {
+      const r = await apiPost(body);
+      m.close(); toast(`Reserved ✓ ${body.dress} · pick up ${fmt(r.pickup)}`);
+      refresh();
+    } catch (x) { err.textContent = x.message; btn.disabled = false; btn.textContent = 'Reserve dress'; }
+  });
+  setTimeout(() => f.renter.focus(), 60);
+}
+
+/* ═════════════════════ STAFF ═════════════════════ */
+function openPin() {
+  if (state.pin) { if (confirmLogout()) return; }
+  const m = openModal(`<div class="modal-head"><div><div class="modal-title">Staff sign-in</div><div class="modal-sub">CLS &amp; House of Roan team</div></div></div>
+    <form class="modal-body" id="pinForm"><div class="field"><label for="pin">Staff PIN</label><input class="input" id="pin" type="password" inputmode="numeric" autocomplete="off" required></div>
+    <p class="err" id="pinErr" role="alert" style="margin:.6rem 0"></p><button class="btn btn-green" type="submit">Sign in</button></form>`, 'Staff sign-in');
+  const f = m.el.querySelector('#pinForm');
+  f.addEventListener('submit', async e => {
+    e.preventDefault(); const pin = f.pin.value.trim(); if (!pin) return;
+    const btn = f.querySelector('button[type=submit]'); btn.disabled = true;
+    try {
+      const t = todayIso(); state.pin = pin;
+      state.rentals = await apiPost({ action: 'listRentals', from: t, to: t });
+      store.set('hor_pin', pin); m.close(); setStaffUi(); selectTab('staff'); toast('Signed in');
+    } catch (x) { state.pin = null; f.querySelector('#pinErr').textContent = x.message; btn.disabled = false; }
+  });
+  setTimeout(() => f.pin.focus(), 60);
+}
+function confirmLogout() {
+  state.pin = null; store.set('hor_pin', null); setStaffUi(); if (state.tab === 'staff') selectTab('date'); toast('Signed out'); return true;
+}
+function setStaffUi() {
+  const on = !!state.pin;
+  $('#tab-staff').hidden = !on;
+  $('#staffBtn').className = on ? 'nav-btn staff-chip' : 'nav-btn';
+  $('#staffBtn').textContent = on ? 'Staff · Sign out' : 'Staff';
+  if (state.tab === 'date') renderDate();
+}
+
+async function loadStaff() {
+  $('#resultsTitle').textContent = 'Bookings';
+  $('#resultsCount').textContent = '';
+  $('#results').innerHTML = '<div class="loading">Loading bookings…</div>';
+  try {
+    state.rentals = await apiPost({ action: 'listRentals', from: $('#fromInput').value, to: $('#toInput').value });
+    renderStaff();
+  } catch (e) {
+    if (/PIN/i.test(e.message)) { confirmLogout(); }
+    $('#results').innerHTML = `<div class="empty">${esc(e.message)}</div>`;
+  }
+}
+const NEXT = { Inquiry: ['Reserved', 'Cancelled'], Reserved: ['Confirmed', 'Cancelled'], Confirmed: ['Picked Up', 'Cancelled'], 'Picked Up': ['Returned'], Returned: [], Cancelled: [] };
+function renderStaff() {
+  const hide = $('#hideClosed').checked;
+  const list = state.rentals.filter(r => !hide || !['Returned', 'Cancelled'].includes(r.status))
+                            .filter(r => state.cat === 'All' || (state.dresses.find(d => d.name === r.dress) || {}).category === state.cat);
+  $('#resultsCount').textContent = `${list.length} booking${list.length === 1 ? '' : 's'}`;
+  if (!list.length) { $('#results').innerHTML = `<div class="empty"><span class="script">All clear</span>No bookings in this range.</div>`; return; }
+  $('#results').innerHTML = `<div class="rent-list">${list.map(r => {
+    const hold = r.status === 'Reserved' && r.holdUntil ? ` · hold until ${new Date(r.holdUntil).toLocaleString('en-US', { timeZone: CONFIG.TZ, month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}` : '';
+    return `<article class="rent ${['Returned', 'Cancelled'].includes(r.status) ? 'dim' : ''}">
+      <div class="date-block"><div class="m">${fmt(r.pickup, { month: 'short', day: undefined })}</div><div class="d">${+r.pickup.slice(8)}</div></div>
+      <div>
+        <div class="rent-top"><span class="rent-name">${esc(r.renter || '—')}</span><span class="st st-${esc((r.status || 'Inquiry').split(' ')[0])}">${esc(r.status)}</span><span class="co">${esc(r.co || '—')}</span></div>
+        <div class="rent-dress">${esc(r.dress)}</div>
+        <div class="rent-meta">Pick up ${fmtLong(r.pickup)} → return ${fmtLong(r.returnBy)}${r.eventDate ? ' · event ' + fmt(r.eventDate) : ''}<br>
+          ${[r.payStatus, r.rate === 0 ? 'Free' : r.rate ? peso(r.rate) : '', r.contact, r.clsBookingId].filter(Boolean).map(esc).join(' · ')}${hold}${r.notes ? '<br><i>' + esc(r.notes) + '</i>' : ''}</div>
+        <div class="rent-actions">
+          ${(NEXT[r.status] || []).map(s => `<button class="btn btn-sm ${s === 'Cancelled' ? 'btn-danger' : s === 'Confirmed' ? 'btn-green' : 'btn-line'}" data-status="${s}" data-id="${esc(r.rentalId)}">${s === 'Cancelled' ? 'Cancel' : 'Mark ' + s}</button>`).join('')}
+          ${r.status !== 'Cancelled' ? `<select class="input btn-sm" style="width:auto;min-height:34px;padding:.3rem .5rem;font-size:.76rem" data-pay="${esc(r.rentalId)}" aria-label="Payment status">
+            ${((state.config && state.config.payStatuses) || []).map(p => `<option ${p === r.payStatus ? 'selected' : ''}>${esc(p)}</option>`).join('')}</select>` : ''}
+        </div>
+      </div></article>`; }).join('')}</div>`;
+}
+async function setStatus(id, status, btn) {
+  if (status === 'Cancelled' && !confirm('Cancel this booking? The dress will be freed.')) return;
+  btn.disabled = true;
+  try { await apiPost({ action: 'setStatus', rentalId: id, status }); toast(status + ' ✓'); loadStaff(); }
+  catch (e) { toast(e.message, true); btn.disabled = false; }
+}
+async function setPay(id, payStatus) {
+  try { await apiPost({ action: 'updateRental', rentalId: id, payStatus }); toast('Payment: ' + payStatus + ' ✓'); }
+  catch (e) { toast(e.message, true); }
+}
+
+/* ═════════════════════ TABS / WIRING ═════════════════════ */
+function selectTab(tab) {
+  state.tab = tab;
+  document.querySelectorAll('.sub-tab').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === tab));
+  ['date', 'browse', 'staff'].forEach(t => $('#panel-' + t).hidden = t !== tab);
+  $('#availToggleWrap').hidden = tab !== 'date';
+  refresh();
+}
+function refresh() {
+  if (state.tab === 'date') loadDate();
+  else if (state.tab === 'browse') renderBrowse();
+  else loadStaff();
+}
+
+document.addEventListener('click', e => {
+  const t = e.target;
+  const co = t.closest('#coSeg button');
+  if (co) { state.co = co.dataset.co; document.querySelectorAll('#coSeg button').forEach(b => b.setAttribute('aria-pressed', b === co)); refresh(); return; }
+  const tab = t.closest('.sub-tab'); if (tab) return selectTab(tab.dataset.tab);
+  const chip = t.closest('[data-cat]'); if (chip) { state.cat = chip.dataset.cat; renderChips(); state.tab === 'date' ? renderDate() : state.tab === 'browse' ? renderBrowse() : renderStaff(); return; }
+  const cal = t.closest('[data-cal]'); if (cal) return openCalendar(cal.dataset.cal);
+  const rs = t.closest('[data-reserve]'); if (rs) { const date = rs.dataset.date; $('#modalRoot').innerHTML = ''; return reserve(rs.dataset.reserve, date); }
+  const st = t.closest('[data-status]'); if (st) return setStatus(st.dataset.id, st.dataset.status, st);
+});
+document.addEventListener('change', e => { const p = e.target.closest('[data-pay]'); if (p) setPay(p.dataset.pay, p.value); });
+$('#dateInput').addEventListener('change', e => { state.date = e.target.value || null; loadDate(); });
+$('#availOnly').addEventListener('change', e => { state.availOnly = e.target.checked; renderDate(); });
+document.querySelector('.lockup .cls').addEventListener('click', e => { e.currentTarget.currentTime = 0; e.currentTarget.play(); }); // tap the logo to replay
+$('#staffBtn').addEventListener('click', openPin);
+$('#newRentalBtn').addEventListener('click', () => openRentalForm({ co: state.co }));
+['#fromInput', '#toInput'].forEach(s => $(s).addEventListener('change', loadStaff));
+$('#hideClosed').addEventListener('change', renderStaff);
+
+async function init() {
+  const t = todayIso();
+  $('#demoBanner').hidden = !!CONFIG.API_URL;
+  $('#dateInput').min = t;
+  $('#fromInput').value = dayToIso(isoToDay(t) - 7); $('#toInput').value = dayToIso(isoToDay(t) + 90);
+  setStaffUi();
+  skeletons(4);
+  try {
+    [state.config, state.dresses] = await Promise.all([apiGet({ action: 'config' }), apiGet({ action: 'dresses' })]);
+    renderChips();
+    const q = new URLSearchParams(location.search);            // deep links: ?date=2026-10-10&co=CLS&dress=Name
+    if (q.get('co') && state.config.coRules[q.get('co')]) document.querySelector(`#coSeg button[data-co="${q.get('co')}"]`)?.click();
+    if (q.get('date')) { state.date = q.get('date'); $('#dateInput').value = state.date; }
+    refresh();
+    if (q.get('dress')) openCalendar(q.get('dress'), q.get('date'));
+  } catch (e) {
+    $('#results').innerHTML = `<div class="empty">Couldn't load the dress list.<br><small>${esc(e.message)}</small></div>`;
+  }
+}
+
+/* ═════════════════════ DEMO BACKEND (used only when API_URL is blank) ═════════════════════ */
+const Demo = (() => {
+  const T = isoToDay(todayIso()), D = n => dayToIso(T + n);
+  const rules = { cleaning: 1, co: { 'CLS Prestige': { days: 2, lead: 0, rate: 0 }, 'CLS Photographer': { days: 2, lead: 0, rate: 700 }, 'HORDR Direct': { days: 3, lead: 1, rate: null }, 'Referral': { days: 3, lead: 1, rate: null }, 'Walk-in': { days: 3, lead: 1, rate: null } } };
+  const price = (d, co) => rules.co[co] && rules.co[co].rate != null ? rules.co[co].rate : d.regularRate;
+  const dresses = [
+    { name: 'Amelia', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Andrea', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Roan', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Bella', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Moira', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Bernadette', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Lara', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Rheanne', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Ruby', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Lolita', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Amari', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Rosie', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Rachel', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Phoebe', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Monica', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Diana', category: '', color: '', size: '', regularRate: null, photo: '' },
+  ];
+  let seq = 0;
+  const rentals = [
+    { dress: 'Amelia', renter: 'Maria Santos', co: 'CLS Prestige', status: 'Confirmed', event: T + 3, pay: 'Fully Paid', rate: 0, clsId: 'CLS-1042' },
+    { dress: 'Amelia', renter: 'Liza Reyes', co: 'HORDR Direct', status: 'Reserved', event: T + 9, pay: 'Unpaid', rate: 3000, hold: Date.now() + 30 * 3600e3 },
+    { dress: 'Bella', renter: 'Ana Cruz', co: 'HORDR Direct', status: 'Picked Up', event: T + 1, pay: 'Fully Paid', rate: 3500 },
+    { dress: 'Moira', renter: 'Joy Dela Cruz', co: 'CLS Photographer', status: 'Confirmed', event: T + 3, pay: 'Fully Paid', rate: 700, clsId: 'CLS-1043' },
+    { dress: 'Lolita', renter: 'Kim Lopez', co: 'CLS Prestige', status: 'Returned', event: T - 2, pay: 'Fully Paid', rate: 0, ret: T - 2 }
+  ].map(r => Object.assign({ id: 'HR-DEMO-' + (++seq), contact: '0917 555 01' + seq }, r));
+  const win = r => { const c = rules.co[r.co] || rules.co['HORDR Direct']; const s = r.pickup != null ? r.pickup : r.event - c.lead; const e = r.ret != null ? r.ret : s + c.days - 1; return { s, e, b: e + rules.cleaning }; };
+  const active = r => ['Reserved', 'Confirmed', 'Picked Up'].includes(r.status);
+  const clash = (dress, s, b, ex) => rentals.filter(r => r.dress === dress && r.id !== ex && active(r)).map(win).filter(w => s <= w.b && b >= w.s);
+  const pub = d => Object.assign({}, d);
+  const out = r => { const w = win(r); return { rentalId: r.id, renter: r.renter, dress: r.dress, co: r.co, status: r.status, payStatus: r.pay, eventDate: dayToIso(r.event),
+    pickup: dayToIso(w.s), returnBy: dayToIso(w.e), availableAgain: dayToIso(w.b + 1), rate: r.rate, contact: r.contact, clsBookingId: r.clsId || '', notes: r.notes || '',
+    holdUntil: r.status === 'Reserved' && r.hold ? new Date(r.hold).toISOString() : null }; };
+  const wait = v => new Promise(res => setTimeout(() => res(JSON.parse(JSON.stringify(v))), 250));
+  const fail = m => new Promise((_, rej) => setTimeout(() => rej(new Error(m)), 250));
+  return {
+    get(p) {
+      if (p.action === 'config') return wait({ cleaningDays: rules.cleaning, coRules: rules.co, statuses: ['Inquiry','Reserved','Confirmed','Picked Up','Returned','Cancelled'], payStatuses: ['Unpaid','Deposit Paid','Fully Paid','Refunded'], holdHours: 48 });
+      if (p.action === 'dresses') return wait(dresses.map(pub));
+      if (p.action === 'availability') {
+        const ev = isoToDay(p.date), c = rules.co[p.co], s = ev - c.lead, e = s + c.days - 1, b = e + rules.cleaning;
+        const list = dresses.map(d => { const cl = clash(d.name, s, b); return Object.assign(pub(d), { rate: price(d, p.co), status: cl.length ? 'Booked' : 'Available', nextFreeFrom: cl.length ? dayToIso(Math.max(...cl.map(w => w.b)) + 1) : null }); });
+        return wait({ eventDate: p.date, co: p.co, pickup: dayToIso(s), returnBy: dayToIso(e), available: list.filter(x => x.status === 'Available').length, dresses: list });
+      }
+      if (p.action === 'dressCalendar') {
+        const [y, m] = p.month.split('-').map(Number), c = rules.co[p.co], first = Date.UTC(y, m - 1, 1) / 864e5, last = Date.UTC(y, m, 0) / 864e5;
+        const mine = rentals.filter(r => r.dress === p.dress && active(r)).map(win), days = [];
+        for (let d = first; d <= last; d++) { const s = d - c.lead, b = s + c.days - 1 + rules.cleaning;
+          days.push({ date: dayToIso(d), booked: mine.some(w => d >= w.s && d <= w.b), canBook: d >= T && s >= T && !mine.some(w => s <= w.b && b >= w.s) }); }
+        return wait({ dress: p.dress, month: p.month, co: p.co, days });
+      }
+      return fail('Unknown action');
+    },
+    post(b) {
+      if (b.pin !== '1234') return fail('Wrong PIN. (Demo PIN is 1234)');
+      if (b.action === 'listRentals') { const f = isoToDay(b.from), t = isoToDay(b.to); return wait(rentals.map(out).filter(r => isoToDay(r.pickup) <= t && isoToDay(r.availableAgain) > f).sort((a, c) => a.pickup < c.pickup ? -1 : 1)); }
+      if (b.action === 'reserve') {
+        const r = { id: 'HR-DEMO-' + (++seq), dress: b.dress, renter: b.renter, co: b.co, status: 'Reserved', event: isoToDay(b.eventDate), pay: 'Unpaid', contact: b.contact || '', clsId: b.clsBookingId || '', notes: b.notes || '', hold: Date.now() + 48 * 3600e3,
+                    pickup: b.pickup ? isoToDay(b.pickup) : null, ret: b.returnDate ? isoToDay(b.returnDate) : null };
+        const d = dresses.find(x => x.name === b.dress); r.rate = price(d, b.co);
+        const w = win(r); if (w.s < T) return fail('Pick-up date is in the past.');
+        const cl = clash(r.dress, w.s, w.b); if (cl.length) return fail(`Sorry, ${r.dress} is already booked for those dates. Next free from ${dayToIso(Math.max(...cl.map(x => x.b)) + 1)}.`);
+        rentals.push(r); return wait(out(r));
+      }
+      const r = rentals.find(x => x.id === b.rentalId); if (!r) return fail('Rental not found');
+      if (b.action === 'setStatus') { r.status = b.status; if (b.status === 'Returned' && (r.ret == null || r.ret > T)) r.ret = Math.max(T, win(r).s); if (b.status === 'Picked Up' && r.pickup == null) r.pickup = win(r).s; return wait(out(r)); }
+      if (b.action === 'updateRental') { if (b.payStatus) r.pay = b.payStatus; return wait(out(r)); }
+      return fail('Unknown action');
+    }
+  };
+})();
+
+init();
+</script>
+</body>
+</html>
