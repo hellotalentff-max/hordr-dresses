@@ -179,6 +179,7 @@ nav a:hover,.nav-btn:hover{color:var(--green)}
 .rent-list{display:flex;flex-direction:column;gap:.7rem;padding:.8rem 0 3rem}
 .rent{background:#fff;border:1px solid var(--line);border-radius:14px;padding:.9rem 1rem;display:grid;grid-template-columns:62px 1fr;gap:.9rem;align-items:start}
 .rent.dim{opacity:.6}
+.rent.locked{background:var(--cream);border-style:dashed}
 .date-block{background:var(--cream);border-radius:10px;text-align:center;padding:.45rem .2rem}
 .date-block .m{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--rust)}
 .date-block .d{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--green-dark);line-height:1.1}
@@ -216,7 +217,7 @@ footer{background:var(--green-dark);color:#fff;padding:2.2rem 1.25rem;text-align
 </head>
 <body>
 
-<div class="demo-banner" id="demoBanner" hidden>DEMO MODE · SAMPLE DRESSES · SET API_URL TO CONNECT THE REAL TRACKER</div>
+<div class="demo-banner" id="demoBanner" hidden>DEMO MODE · SAMPLE DRESSES · PIN 1234 = CLS STAFF · 5678 = HOUSE OF ROAN</div>
 
 <nav aria-label="Main">
   <a class="brand" href="https://hellotalentff-max.github.io/clicklounge/" aria-label="Click Lounge Studio home"><img src="cls-logo.png" alt="Click Lounge Studio"></a>
@@ -247,9 +248,10 @@ footer{background:var(--green-dark);color:#fff;padding:2.2rem 1.25rem;text-align
     <section class="control" aria-label="Search">
       <div class="seg-row">
         <span class="seg-label">My shoot package</span>
+        <span class="seg-label" id="partnerNote" hidden style="color:var(--gold-ink)">House of Roan rental · 3 days (pick up the day before, return the day after)</span>
         <div class="seg" role="group" aria-label="Renting for" id="coSeg">
           <button type="button" data-co="CLS Prestige" aria-pressed="true">Prestige package <span class="seg-price">· dress included</span></button>
-          <button type="button" data-co="CLS Photographer" aria-pressed="false">Photographer package <span class="seg-price">· ₱700</span></button>
+          <button type="button" data-co="CLS Photographer" aria-pressed="false">Photographer package <span class="seg-price" id="photoPrice">· dress rental</span></button>
         </div>
       </div>
       <div class="sub-tabs" role="tablist">
@@ -280,6 +282,12 @@ footer{background:var(--green-dark);color:#fff;padding:2.2rem 1.25rem;text-align
       <div class="panel-tools" id="filters" style="border-top:1px solid var(--line);padding-top:.8rem">
         <div class="chips" id="catChips" role="group" aria-label="Category"></div>
         <label class="toggle" id="availToggleWrap"><input type="checkbox" id="availOnly"> Available only</label>
+        <label class="toggle" style="gap:.5rem"><span class="lbl" style="letter-spacing:.1em">Sort</span>
+          <select class="input" id="sortBy" style="width:auto;min-height:36px;padding:.35rem .5rem;font-size:.82rem">
+            <option value="name">Name A–Z</option>
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+          </select></label>
       </div>
     </section>
 
@@ -348,8 +356,9 @@ async function apiPost(body) {
 }
 
 /* ═════════════════════ STATE ═════════════════════ */
-const state = { co: 'CLS Prestige', tab: 'date', date: null, cat: 'All', availOnly: false, config: null, dresses: [], avail: null,
+const state = { co: 'CLS Prestige', sort: 'name', role: null, tab: 'date', date: null, cat: 'All', availOnly: false, config: null, dresses: [], avail: null,
                 pin: store.get('hor_pin'), rentals: [] };
+state.role = state.pin ? store.get('hor_role') : null;
 
 /* ═════════════════════ RENDER: shared ═════════════════════ */
 const $ = s => document.querySelector(s);
@@ -379,9 +388,16 @@ window.dressImgFail = function (img) {
   if (rest.length) { img.dataset.rest = JSON.stringify(rest.slice(1)); img.src = rest[0]; }
   else img.outerHTML = img.dataset.ph;
 };
-function rateFor(d) {
+/** flat rate from the Lists tab (Prestige = free) → else per-dress Photographer Rate → else Regular Rate */
+function rateOf(d) {
   const rule = state.config && state.config.coRules[state.co];
-  const r = d.rate != null ? d.rate : rule && rule.rate != null ? rule.rate : d.regularRate;
+  return d.rate != null ? d.rate
+       : rule && rule.rate != null ? rule.rate
+       : state.co.indexOf('CLS') === 0 && d.photographerRate != null ? d.photographerRate
+       : d.regularRate;
+}
+function rateFor(d) {
+  const r = rateOf(d);
   if (r == null) return '';
   return r === 0 ? `<div class="card-price">FREE<small>included in Prestige</small></div>`
                  : `<div class="card-price">${peso(r)}<small>dress rental</small></div>`;
@@ -398,7 +414,10 @@ function renderChips() {
   $('#catChips').innerHTML = cats.length > 2 ? cats.map(c => `<button type="button" class="chip" aria-pressed="${c === state.cat}" data-cat="${esc(c)}">${esc(c)}</button>`).join('') : '';
 }
 function filtered(list) {
-  return list.filter(d => (state.cat === 'All' || d.category === state.cat) && (!state.availOnly || d.status !== 'Booked'));
+  const out = list.filter(d => (state.cat === 'All' || d.category === state.cat) && (!state.availOnly || d.status !== 'Booked'));
+  if (state.sort === 'name') return out;                      // already in Dresses-tab order
+  const n = d => { const r = rateOf(d); return r == null ? Infinity : r; };
+  return out.slice().sort((a, b) => state.sort === 'price-asc' ? n(a) - n(b) : n(b) - n(a));
 }
 
 /* ═════════════════════ TAB: date ═════════════════════ */
@@ -536,7 +555,10 @@ function reserve(name, date) {
 function openRentalForm(pre) {
   const t = todayIso();
   const opts = state.dresses.map(d => `<option ${d.name === pre.dress ? 'selected' : ''}>${esc(d.name)}</option>`).join('');
-  const coOpts = Object.keys((state.config && state.config.coRules) || { 'CLS Prestige': 1, 'CLS Photographer': 1 }).map(c => `<option ${c === pre.co ? 'selected' : ''}>${esc(c)}</option>`).join('');
+  let coList = Object.keys((state.config && state.config.coRules) || { 'CLS Prestige': 1, 'CLS Photographer': 1 });
+  if (isPartner()) coList = coList.filter(c => c.indexOf('CLS') !== 0);        // House of Roan books its own rentals only
+  if (!coList.includes(pre.co)) pre.co = coList[0];
+  const coOpts = coList.map(c => `<option ${c === pre.co ? 'selected' : ''}>${esc(c)}</option>`).join('');
   const m = openModal(`<div class="modal-head"><div><div class="modal-title">New reservation</div><div class="modal-sub">Held for ${(state.config && state.config.holdHours) || 48} hours until confirmed</div></div></div>
     <form class="modal-body" id="rentForm" novalidate>
       <div class="form-grid">
@@ -545,7 +567,7 @@ function openRentalForm(pre) {
         <div class="field"><label for="f-co">C/O</label><select class="input" id="f-co" name="co">${coOpts}</select></div>
         <div class="field full"><label for="f-renter">Name of renter</label><input class="input" id="f-renter" name="renter" required autocomplete="off"></div>
         <div class="field"><label for="f-contact">Contact no.</label><input class="input" id="f-contact" name="contact" inputmode="tel" autocomplete="off"></div>
-        <div class="field"><label for="f-cls">CLS booking ID</label><input class="input" id="f-cls" name="clsBookingId" autocomplete="off"></div>
+        <div class="field" ${isPartner() ? 'hidden' : ''}><label for="f-cls">CLS booking ID</label><input class="input" id="f-cls" name="clsBookingId" autocomplete="off"></div>
         <div class="field"><label for="f-pu">Pick-up <span style="text-transform:none;letter-spacing:0">(optional)</span></label><input class="input" type="date" id="f-pu" name="pickup" min="${t}"></div>
         <div class="field"><label for="f-rt">Return <span style="text-transform:none;letter-spacing:0">(optional)</span></label><input class="input" type="date" id="f-rt" name="returnDate" min="${t}"></div>
         <div class="field full"><label for="f-notes">Notes</label><input class="input" id="f-notes" name="notes" autocomplete="off"></div>
@@ -588,22 +610,32 @@ function openPin() {
     e.preventDefault(); const pin = f.pin.value.trim(); if (!pin) return;
     const btn = f.querySelector('button[type=submit]'); btn.disabled = true;
     try {
-      const t = todayIso(); state.pin = pin;
-      state.rentals = await apiPost({ action: 'listRentals', from: t, to: t });
-      store.set('hor_pin', pin); m.close(); setStaffUi(); selectTab('staff'); toast('Signed in');
-    } catch (x) { state.pin = null; f.querySelector('#pinErr').textContent = x.message; btn.disabled = false; }
+      state.pin = pin;
+      state.role = (await apiPost({ action: 'whoami' })).role;
+      store.set('hor_pin', pin); store.set('hor_role', state.role);
+      m.close(); setStaffUi(); selectTab('staff'); toast(state.role === 'partner' ? 'Signed in — House of Roan' : 'Signed in');
+    } catch (x) { state.pin = null; state.role = null; f.querySelector('#pinErr').textContent = x.message; btn.disabled = false; }
   });
   setTimeout(() => f.pin.focus(), 60);
 }
 function confirmLogout() {
-  state.pin = null; store.set('hor_pin', null); setStaffUi(); if (state.tab === 'staff') selectTab('date'); toast('Signed out'); return true;
+  state.pin = null; state.role = null; store.set('hor_pin', null); store.set('hor_role', null); setStaffUi(); if (state.tab === 'staff') selectTab('date'); toast('Signed out'); return true;
 }
+const isPartner = () => state.role === 'partner';
 function setStaffUi() {
-  const on = !!state.pin;
+  const on = !!state.pin, partner = isPartner();
   $('#tab-staff').hidden = !on;
+  $('#tab-staff').textContent = partner ? 'Rentals' : 'Bookings';
   $('#staffBtn').className = on ? 'nav-btn staff-chip' : 'nav-btn';
-  $('#staffBtn').textContent = on ? 'Staff · Sign out' : 'Staff';
-  if (state.tab === 'date') renderDate();
+  $('#staffBtn').textContent = on ? (partner ? 'House of Roan · Sign out' : 'Staff · Sign out') : 'Staff';
+  // a House of Roan rental is always their own 3-day window, so the package toggle doesn't apply
+  $('#coSeg').hidden = partner;
+  $('#partnerNote').hidden = !partner;
+  if (partner && state.co.indexOf('CLS') === 0) { state.co = 'HORDR Direct'; }
+  if (!partner && state.co === 'HORDR Direct') { state.co = 'CLS Prestige'; }
+  document.querySelectorAll('#coSeg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.co === state.co));
+  $('#newRentalBtn').textContent = partner ? '＋ New House of Roan rental' : '＋ New reservation';
+  if (state.tab === 'date') renderDate(); else if (state.tab === 'browse') renderBrowse();
 }
 
 async function loadStaff() {
@@ -627,16 +659,17 @@ function renderStaff() {
   if (!list.length) { $('#results').innerHTML = `<div class="empty"><span class="script">All clear</span>No bookings in this range.</div>`; return; }
   $('#results').innerHTML = `<div class="rent-list">${list.map(r => {
     const hold = r.status === 'Reserved' && r.holdUntil ? ` · hold until ${new Date(r.holdUntil).toLocaleString('en-US', { timeZone: CONFIG.TZ, month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}` : '';
-    return `<article class="rent ${['Returned', 'Cancelled'].includes(r.status) ? 'dim' : ''}">
+    const locked = r.mine === false;                   // a CLS booking seen from House of Roan's side
+    return `<article class="rent ${['Returned', 'Cancelled'].includes(r.status) ? 'dim' : ''}${locked ? ' locked' : ''}">
       <div class="date-block"><div class="m">${fmt(r.pickup, { month: 'short', day: undefined })}</div><div class="d">${+r.pickup.slice(8)}</div></div>
       <div>
         <div class="rent-top"><span class="rent-name">${esc(r.renter || '—')}</span><span class="st st-${esc((r.status || 'Inquiry').split(' ')[0])}">${esc(r.status)}</span><span class="co">${esc(r.co || '—')}</span></div>
         <div class="rent-dress">${esc(r.dress)}</div>
-        <div class="rent-meta">Pick up ${fmtLong(r.pickup)} → return ${fmtLong(r.returnBy)}${r.eventDate ? ' · event ' + fmt(r.eventDate) : ''}<br>
-          ${[r.payStatus, r.rate === 0 ? 'Free' : r.rate ? peso(r.rate) : '', r.contact, r.clsBookingId].filter(Boolean).map(esc).join(' · ')}${hold}${r.notes ? '<br><i>' + esc(r.notes) + '</i>' : ''}</div>
+        <div class="rent-meta">Pick up ${fmtLong(r.pickup)} → return ${fmtLong(r.returnBy)}${r.eventDate ? ' · event ' + fmt(r.eventDate) : ''}${locked ? ' · dress back ' + fmt(r.availableAgain) : ''}<br>
+          ${[r.payStatus, r.clientPrice === 0 ? 'Dress free to client' : r.clientPrice ? 'Client ' + peso(r.clientPrice) : '', r.rate ? peso(r.rate) + ' to HOR' : '', r.contact, r.clsBookingId].filter(Boolean).map(esc).join(' · ')}${hold}${r.notes ? '<br><i>' + esc(r.notes) + '</i>' : ''}</div>
         <div class="rent-actions">
-          ${(NEXT[r.status] || []).map(s => `<button class="btn btn-sm ${s === 'Cancelled' ? 'btn-danger' : s === 'Confirmed' ? 'btn-green' : 'btn-line'}" data-status="${s}" data-id="${esc(r.rentalId)}">${s === 'Cancelled' ? 'Cancel' : 'Mark ' + s}</button>`).join('')}
-          ${r.status !== 'Cancelled' ? `<select class="input btn-sm" style="width:auto;min-height:34px;padding:.3rem .5rem;font-size:.76rem" data-pay="${esc(r.rentalId)}" aria-label="Payment status">
+          ${locked ? '<span class="hint">Click Lounge Studio booking — dates only</span>' : (NEXT[r.status] || []).map(s => `<button class="btn btn-sm ${s === 'Cancelled' ? 'btn-danger' : s === 'Confirmed' ? 'btn-green' : 'btn-line'}" data-status="${s}" data-id="${esc(r.rentalId)}">${s === 'Cancelled' ? 'Cancel' : 'Mark ' + s}</button>`).join('')}
+          ${!locked && r.status !== 'Cancelled' ? `<select class="input btn-sm" style="width:auto;min-height:34px;padding:.3rem .5rem;font-size:.76rem" data-pay="${esc(r.rentalId)}" aria-label="Payment status">
             ${((state.config && state.config.payStatuses) || []).map(p => `<option ${p === r.payStatus ? 'selected' : ''}>${esc(p)}</option>`).join('')}</select>` : ''}
         </div>
       </div></article>`; }).join('')}</div>`;
@@ -679,6 +712,7 @@ document.addEventListener('click', e => {
 document.addEventListener('change', e => { const p = e.target.closest('[data-pay]'); if (p) setPay(p.dataset.pay, p.value); });
 $('#dateInput').addEventListener('change', e => { state.date = e.target.value || null; loadDate(); });
 $('#availOnly').addEventListener('change', e => { state.availOnly = e.target.checked; renderDate(); });
+$('#sortBy').addEventListener('change', e => { state.sort = e.target.value; state.tab === 'date' ? renderDate() : renderBrowse(); });
 document.querySelector('.lockup .cls').addEventListener('click', e => { e.currentTarget.currentTime = 0; e.currentTarget.play(); }); // tap the logo to replay
 $('#staffBtn').addEventListener('click', openPin);
 $('#newRentalBtn').addEventListener('click', () => openRentalForm({ co: state.co }));
@@ -695,6 +729,9 @@ async function init() {
   try {
     [state.config, state.dresses] = await Promise.all([apiGet({ action: 'config' }), apiGet({ action: 'dresses' })]);
     renderChips();
+    // label the Photographer button with the cheapest dress, e.g. "· from ₱400"
+    const rates = state.dresses.map(d => d.photographerRate).filter(v => v != null);
+    if (rates.length) $('#photoPrice').textContent = '· from ' + peso(Math.min.apply(null, rates));
     const q = new URLSearchParams(location.search);            // deep links: ?date=2026-10-10&co=CLS&dress=Name
     if (q.get('co') && state.config.coRules[q.get('co')]) document.querySelector(`#coSeg button[data-co="${q.get('co')}"]`)?.click();
     if (q.get('date')) { state.date = q.get('date'); $('#dateInput').value = state.date; }
@@ -708,32 +745,34 @@ async function init() {
 /* ═════════════════════ DEMO BACKEND (used only when API_URL is blank) ═════════════════════ */
 const Demo = (() => {
   const T = isoToDay(todayIso()), D = n => dayToIso(T + n);
-  const rules = { cleaning: 1, co: { 'CLS Prestige': { days: 2, lead: 0, rate: 0 }, 'CLS Photographer': { days: 2, lead: 0, rate: 700 }, 'HORDR Direct': { days: 3, lead: 1, rate: null }, 'Referral': { days: 3, lead: 1, rate: null }, 'Walk-in': { days: 3, lead: 1, rate: null } } };
-  const price = (d, co) => rules.co[co] && rules.co[co].rate != null ? rules.co[co].rate : d.regularRate;
+  const partnerRate = 500;   // HORDR's flat rate to CLS
+  const rules = { cleaning: 1, co: { 'CLS Prestige': { days: 2, lead: 0, rate: 0 }, 'CLS Photographer': { days: 2, lead: 0, rate: null }, 'HORDR Direct': { days: 3, lead: 1, rate: null }, 'Referral': { days: 3, lead: 1, rate: null }, 'Walk-in': { days: 3, lead: 1, rate: null } } };
+  const price = (d, co) => rules.co[co] && rules.co[co].rate != null ? rules.co[co].rate
+                         : co.indexOf('CLS') === 0 && d.photographerRate != null ? d.photographerRate : d.regularRate;
   const dresses = [
-    { name: 'Amelia', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Andrea', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Roan', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Bella', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Moira', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Bernadette', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Lara', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Rheanne', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Ruby', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Lolita', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Amari', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Rosie', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Rachel', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Phoebe', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Monica', category: '', color: '', size: '', regularRate: null, photo: '' },
-    { name: 'Diana', category: '', color: '', size: '', regularRate: null, photo: '' },
+    { name: 'Amelia', category: '', color: '', size: '', regularRate: null, photographerRate: 700, photo: '' },
+    { name: 'Andrea', category: '', color: '', size: '', regularRate: null, photographerRate: 900, photo: '' },
+    { name: 'Roan', category: '', color: '', size: '', regularRate: null, photographerRate: 900, photo: '' },
+    { name: 'Bella', category: '', color: '', size: '', regularRate: null, photographerRate: 700, photo: '' },
+    { name: 'Moira', category: '', color: '', size: '', regularRate: null, photographerRate: 800, photo: '' },
+    { name: 'Bernadette', category: '', color: '', size: '', regularRate: null, photographerRate: 700, photo: '' },
+    { name: 'Lara', category: '', color: '', size: '', regularRate: null, photographerRate: 900, photo: '' },
+    { name: 'Rheanne', category: '', color: '', size: '', regularRate: null, photographerRate: 700, photo: '' },
+    { name: 'Ruby', category: '', color: '', size: '', regularRate: null, photographerRate: 800, photo: '' },
+    { name: 'Lolita', category: '', color: '', size: '', regularRate: null, photographerRate: 800, photo: '' },
+    { name: 'Amari', category: '', color: '', size: '', regularRate: null, photographerRate: 600, photo: '' },
+    { name: 'Rosie', category: '', color: '', size: '', regularRate: null, photographerRate: 600, photo: '' },
+    { name: 'Rachel', category: '', color: '', size: '', regularRate: null, photographerRate: 600, photo: '' },
+    { name: 'Phoebe', category: '', color: '', size: '', regularRate: null, photographerRate: 400, photo: '' },
+    { name: 'Monica', category: '', color: '', size: '', regularRate: null, photographerRate: 400, photo: '' },
+    { name: 'Diana', category: '', color: '', size: '', regularRate: null, photographerRate: 500, photo: '' },
   ];
   let seq = 0;
   const rentals = [
     { dress: 'Amelia', renter: 'Maria Santos', co: 'CLS Prestige', status: 'Confirmed', event: T + 3, pay: 'Fully Paid', rate: 0, clsId: 'CLS-1042' },
     { dress: 'Amelia', renter: 'Liza Reyes', co: 'HORDR Direct', status: 'Reserved', event: T + 9, pay: 'Unpaid', rate: 3000, hold: Date.now() + 30 * 3600e3 },
     { dress: 'Bella', renter: 'Ana Cruz', co: 'HORDR Direct', status: 'Picked Up', event: T + 1, pay: 'Fully Paid', rate: 3500 },
-    { dress: 'Moira', renter: 'Joy Dela Cruz', co: 'CLS Photographer', status: 'Confirmed', event: T + 3, pay: 'Fully Paid', rate: 700, clsId: 'CLS-1043' },
+    { dress: 'Moira', renter: 'Joy Dela Cruz', co: 'CLS Photographer', status: 'Confirmed', event: T + 3, pay: 'Fully Paid', rate: 800, clsId: 'CLS-1043' },
     { dress: 'Lolita', renter: 'Kim Lopez', co: 'CLS Prestige', status: 'Returned', event: T - 2, pay: 'Fully Paid', rate: 0, ret: T - 2 }
   ].map(r => Object.assign({ id: 'HR-DEMO-' + (++seq), contact: '0917 555 01' + seq }, r));
   const win = r => { const c = rules.co[r.co] || rules.co['HORDR Direct']; const s = r.pickup != null ? r.pickup : r.event - c.lead; const e = r.ret != null ? r.ret : s + c.days - 1; return { s, e, b: e + rules.cleaning }; };
@@ -741,7 +780,7 @@ const Demo = (() => {
   const clash = (dress, s, b, ex) => rentals.filter(r => r.dress === dress && r.id !== ex && active(r)).map(win).filter(w => s <= w.b && b >= w.s);
   const pub = d => Object.assign({}, d);
   const out = r => { const w = win(r); return { rentalId: r.id, renter: r.renter, dress: r.dress, co: r.co, status: r.status, payStatus: r.pay, eventDate: dayToIso(r.event),
-    pickup: dayToIso(w.s), returnBy: dayToIso(w.e), availableAgain: dayToIso(w.b + 1), rate: r.rate, contact: r.contact, clsBookingId: r.clsId || '', notes: r.notes || '',
+    pickup: dayToIso(w.s), returnBy: dayToIso(w.e), availableAgain: dayToIso(w.b + 1), rate: r.co.indexOf('CLS') === 0 ? partnerRate : null, clientPrice: r.rate, contact: r.contact, clsBookingId: r.clsId || '', notes: r.notes || '',
     holdUntil: r.status === 'Reserved' && r.hold ? new Date(r.hold).toISOString() : null }; };
   const wait = v => new Promise(res => setTimeout(() => res(JSON.parse(JSON.stringify(v))), 250));
   const fail = m => new Promise((_, rej) => setTimeout(() => rej(new Error(m)), 250));
@@ -764,19 +803,28 @@ const Demo = (() => {
       return fail('Unknown action');
     },
     post(b) {
-      if (b.pin !== '1234') return fail('Wrong PIN. (Demo PIN is 1234)');
-      if (b.action === 'listRentals') { const f = isoToDay(b.from), t = isoToDay(b.to); return wait(rentals.map(out).filter(r => isoToDay(r.pickup) <= t && isoToDay(r.availableAgain) > f).sort((a, c) => a.pickup < c.pickup ? -1 : 1)); }
+      const role = b.pin === '1234' ? 'staff' : b.pin === '5678' ? 'partner' : null;
+      if (!role) return fail('Wrong PIN. (Demo: 1234 = CLS staff, 5678 = House of Roan)');
+      const cls = co => String(co).indexOf('CLS') === 0;
+      const red = r => { const o = out(r);                       // what House of Roan may see of a CLS booking
+        if (role === 'partner' && cls(r.co)) return { rentalId: o.rentalId, dress: o.dress, co: 'CLS booking', renter: 'CLS client',
+          status: o.status, pickup: o.pickup, returnBy: o.returnBy, availableAgain: o.availableAgain, mine: false };
+        return Object.assign(o, { mine: true }); };
+      if (b.action === 'whoami') return wait({ role });
+      if (b.action === 'listRentals') { const f = isoToDay(b.from), t = isoToDay(b.to); return wait(rentals.map(red).filter(r => isoToDay(r.pickup) <= t && isoToDay(r.availableAgain) > f).sort((a, c) => a.pickup < c.pickup ? -1 : 1)); }
       if (b.action === 'reserve') {
+        if (role === 'partner' && cls(b.co)) return fail('Only Click Lounge Studio can book the CLS packages.');
         const r = { id: 'HR-DEMO-' + (++seq), dress: b.dress, renter: b.renter, co: b.co, status: 'Reserved', event: isoToDay(b.eventDate), pay: 'Unpaid', contact: b.contact || '', clsId: b.clsBookingId || '', notes: b.notes || '', hold: Date.now() + 48 * 3600e3,
                     pickup: b.pickup ? isoToDay(b.pickup) : null, ret: b.returnDate ? isoToDay(b.returnDate) : null };
         const d = dresses.find(x => x.name === b.dress); r.rate = price(d, b.co);
         const w = win(r); if (w.s < T) return fail('Pick-up date is in the past.');
         const cl = clash(r.dress, w.s, w.b); if (cl.length) return fail(`Sorry, ${r.dress} is already booked for those dates. Next free from ${dayToIso(Math.max(...cl.map(x => x.b)) + 1)}.`);
-        rentals.push(r); return wait(out(r));
+        rentals.push(r); return wait(red(r));
       }
       const r = rentals.find(x => x.id === b.rentalId); if (!r) return fail('Rental not found');
-      if (b.action === 'setStatus') { r.status = b.status; if (b.status === 'Returned' && (r.ret == null || r.ret > T)) r.ret = Math.max(T, win(r).s); if (b.status === 'Picked Up' && r.pickup == null) r.pickup = win(r).s; return wait(out(r)); }
-      if (b.action === 'updateRental') { if (b.payStatus) r.pay = b.payStatus; return wait(out(r)); }
+      if (role === 'partner' && cls(r.co)) return fail('That booking belongs to Click Lounge Studio.');
+      if (b.action === 'setStatus') { r.status = b.status; if (b.status === 'Returned' && (r.ret == null || r.ret > T)) r.ret = Math.max(T, win(r).s); if (b.status === 'Picked Up' && r.pickup == null) r.pickup = win(r).s; return wait(red(r)); }
+      if (b.action === 'updateRental') { if (b.payStatus) r.pay = b.payStatus; return wait(red(r)); }
       return fail('Unknown action');
     }
   };
