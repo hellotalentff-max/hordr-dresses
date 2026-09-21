@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Photoshoot Wardrobe — Click Lounge Studio × House of Roan</title>
-<meta name="description" content="Check which House of Roan dresses are free for your Click Lounge Studio Prestige or Photographer package shoot.">
+<meta name="description" content="Check which House of Roan dresses are free for your Click Lounge Studio Prestige shoot, or add one to any package.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&family=Pinyon+Script&display=swap" rel="stylesheet">
@@ -251,7 +251,7 @@ footer{background:var(--green-dark);color:#fff;padding:2.2rem 1.25rem;text-align
         <span class="seg-label" id="partnerNote" hidden style="color:var(--gold-ink)">House of Roan rental · 3 days (pick up the day before, return the day after)</span>
         <div class="seg" role="group" aria-label="Renting for" id="coSeg">
           <button type="button" data-co="CLS Prestige" aria-pressed="true">Prestige package <span class="seg-price">· dress included</span></button>
-          <button type="button" data-co="CLS Photographer" aria-pressed="false">Photographer package <span class="seg-price" id="photoPrice">· dress rental</span></button>
+          <button type="button" data-co="CLS Photographer" aria-pressed="false">Package add-on <span class="seg-price" id="photoPrice">· dress rental</span></button>
         </div>
       </div>
       <div class="sub-tabs" role="tablist">
@@ -322,7 +322,7 @@ const CONFIG = {
   MESSENGER: 'https://m.me/clicklounge.studio', // where "Reserve this dress" sends clients
   PHOTO_FOLDER: 'dresses/',   // photos named after the dress (dresses/amelia.jpg) are picked up automatically when Photo URL is blank
   PHOTO_EXT: ['jpg', 'jpeg', 'png', 'webp'],
-  CO_LABEL: { 'CLS Prestige': 'Prestige package', 'CLS Photographer': 'Photographer package' },
+  CO_LABEL: { 'CLS Prestige': 'Prestige package', 'CLS Photographer': 'Package add-on' },
   TZ: 'Asia/Manila'
 };
 
@@ -729,7 +729,7 @@ async function init() {
   try {
     [state.config, state.dresses] = await Promise.all([apiGet({ action: 'config' }), apiGet({ action: 'dresses' })]);
     renderChips();
-    // label the Photographer button with the cheapest dress, e.g. "· from ₱400"
+    // label the Package add-on button with the cheapest dress, e.g. "· from ₱400"
     const rates = state.dresses.map(d => d.photographerRate).filter(v => v != null);
     if (rates.length) $('#photoPrice').textContent = '· from ' + peso(Math.min.apply(null, rates));
     const q = new URLSearchParams(location.search);            // deep links: ?date=2026-10-10&co=CLS&dress=Name
@@ -750,22 +750,22 @@ const Demo = (() => {
   const price = (d, co) => rules.co[co] && rules.co[co].rate != null ? rules.co[co].rate
                          : co.indexOf('CLS') === 0 && d.photographerRate != null ? d.photographerRate : d.regularRate;
   const dresses = [
-    { name: 'Amelia', category: '', color: '', size: '', regularRate: null, photographerRate: 700, photo: '' },
-    { name: 'Andrea', category: '', color: '', size: '', regularRate: null, photographerRate: 900, photo: '' },
-    { name: 'Roan', category: '', color: '', size: '', regularRate: null, photographerRate: 900, photo: '' },
-    { name: 'Bella', category: '', color: '', size: '', regularRate: null, photographerRate: 700, photo: '' },
-    { name: 'Moira', category: '', color: '', size: '', regularRate: null, photographerRate: 800, photo: '' },
-    { name: 'Bernadette', category: '', color: '', size: '', regularRate: null, photographerRate: 700, photo: '' },
-    { name: 'Lara', category: '', color: '', size: '', regularRate: null, photographerRate: 900, photo: '' },
-    { name: 'Rheanne', category: '', color: '', size: '', regularRate: null, photographerRate: 700, photo: '' },
-    { name: 'Ruby', category: '', color: '', size: '', regularRate: null, photographerRate: 800, photo: '' },
-    { name: 'Lolita', category: '', color: '', size: '', regularRate: null, photographerRate: 800, photo: '' },
-    { name: 'Amari', category: '', color: '', size: '', regularRate: null, photographerRate: 600, photo: '' },
-    { name: 'Rosie', category: '', color: '', size: '', regularRate: null, photographerRate: 600, photo: '' },
-    { name: 'Rachel', category: '', color: '', size: '', regularRate: null, photographerRate: 600, photo: '' },
-    { name: 'Phoebe', category: '', color: '', size: '', regularRate: null, photographerRate: 400, photo: '' },
-    { name: 'Monica', category: '', color: '', size: '', regularRate: null, photographerRate: 400, photo: '' },
-    { name: 'Diana', category: '', color: '', size: '', regularRate: null, photographerRate: 500, photo: '' },
+    { name: 'Amelia', category: '', color: '', size: '', regularRate: 799, photographerRate: 700, photo: '' },
+    { name: 'Andrea', category: '', color: '', size: '', regularRate: 999, photographerRate: 900, photo: '' },
+    { name: 'Roan', category: '', color: '', size: '', regularRate: 999, photographerRate: 900, photo: '' },
+    { name: 'Bella', category: '', color: '', size: '', regularRate: 799, photographerRate: 700, photo: '' },
+    { name: 'Moira', category: '', color: '', size: '', regularRate: 899, photographerRate: 800, photo: '' },
+    { name: 'Bernadette', category: '', color: '', size: '', regularRate: 799, photographerRate: 700, photo: '' },
+    { name: 'Lara', category: '', color: '', size: '', regularRate: 999, photographerRate: 900, photo: '' },
+    { name: 'Rheanne', category: '', color: '', size: '', regularRate: 799, photographerRate: 700, photo: '' },
+    { name: 'Ruby', category: '', color: '', size: '', regularRate: 899, photographerRate: 800, photo: '' },
+    { name: 'Lolita', category: '', color: '', size: '', regularRate: 899, photographerRate: 800, photo: '' },
+    { name: 'Amari', category: '', color: '', size: '', regularRate: 699, photographerRate: 600, photo: '' },
+    { name: 'Rosie', category: '', color: '', size: '', regularRate: 699, photographerRate: 600, photo: '' },
+    { name: 'Rachel', category: '', color: '', size: '', regularRate: 699, photographerRate: 600, photo: '' },
+    { name: 'Phoebe', category: '', color: '', size: '', regularRate: 499, photographerRate: 500, photo: '' },
+    { name: 'Monica', category: '', color: '', size: '', regularRate: 499, photographerRate: 500, photo: '' },
+    { name: 'Diana', category: '', color: '', size: '', regularRate: 599, photographerRate: 500, photo: '' },
   ];
   let seq = 0;
   const rentals = [
