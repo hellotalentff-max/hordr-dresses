@@ -339,20 +339,37 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&am
 const store = { get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
                 set(k, v) { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, v); } catch (e) {} } };
 
+/* Google sometimes answers a script request with an HTML page (a hiccup right after a
+   deploy, or a sign-in page). That isn't JSON, so we wait a moment and try again. */
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+async function apiFetch(url, opts, tries = 3) {
+  let lastText = '';
+  for (let i = 0; i < tries; i++) {
+    try {
+      const res = await fetch(url, opts);
+      lastText = await res.text();
+      const j = JSON.parse(lastText);
+      if (!j.ok) throw Object.assign(new Error(j.error), { fromServer: true });
+      return j.data;
+    } catch (e) {
+      if (e.fromServer) throw e;                                  // a real answer: "Wrong PIN", "already booked", …
+      if (i === tries - 1) {
+        throw new Error(/<!DOCTYPE|<html/i.test(lastText)
+          ? 'The dress system didn\'t answer just now. Please refresh in a moment.'
+          : 'No connection to the dress system. Check your internet and refresh.');
+      }
+      await sleep(700 * (i + 1));
+    }
+  }
+}
 async function apiGet(params) {
   if (!CONFIG.API_URL) return Demo.get(params);
-  const res = await fetch(CONFIG.API_URL + '?' + new URLSearchParams(params));
-  const j = await res.json();
-  if (!j.ok) throw new Error(j.error);
-  return j.data;
+  return apiFetch(CONFIG.API_URL + '?' + new URLSearchParams(params));
 }
 async function apiPost(body) {
   body = Object.assign({ pin: state.pin }, body);
   if (!CONFIG.API_URL) return Demo.post(body);
-  const res = await fetch(CONFIG.API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) });
-  const j = await res.json();
-  if (!j.ok) throw new Error(j.error);
-  return j.data;
+  return apiFetch(CONFIG.API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) });
 }
 
 /* ═════════════════════ STATE ═════════════════════ */
@@ -727,7 +744,8 @@ async function init() {
   setStaffUi();
   skeletons(4);
   try {
-    [state.config, state.dresses] = await Promise.all([apiGet({ action: 'config' }), apiGet({ action: 'dresses' })]);
+    state.config = await apiGet({ action: 'config' });            // one at a time: two at once upsets Apps Script
+    state.dresses = await apiGet({ action: 'dresses' });
     renderChips();
     // label the Package add-on button with the cheapest dress, e.g. "· from ₱400"
     const rates = state.dresses.map(d => d.photographerRate).filter(v => v != null);
@@ -738,7 +756,7 @@ async function init() {
     refresh();
     if (q.get('dress')) openCalendar(q.get('dress'), q.get('date'));
   } catch (e) {
-    $('#results').innerHTML = `<div class="empty">Couldn't load the dress list.<br><small>${esc(e.message)}</small></div>`;
+    $('#results').innerHTML = `<div class="empty">Couldn't load the dress list.<br><small>${esc(e.message)}</small><br><button class="btn" style="margin-top:14px" onclick="location.reload()">Try again</button></div>`;
   }
 }
 
