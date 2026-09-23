@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Photoshoot Wardrobe — Click Lounge Studio × House of Roan</title>
-<meta name="description" content="Check which House of Roan dresses are free for your Click Lounge Studio Prestige shoot, or add one to any package.">
+<title>Photoshoot Wardrobe — ClickLounge Studio × House of Roan</title>
+<meta name="description" content="Check which House of Roan dresses are free for your ClickLounge Studio Prestige shoot, or add one to any package.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>
-/* ── Click Lounge Studio tokens (from the main site) + House of Roan accent ── */
+/* ── ClickLounge Studio tokens (from the main site) + House of Roan accent ── */
 :root{
   --green:#2d6e5f; --green-dark:#1e4d42; --green-light:#4a9082;
   --amber:#c49a1a; --amber-light:#d4b030;
@@ -220,7 +220,7 @@ footer{background:var(--green-dark);color:#fff;padding:2.2rem 1.25rem;text-align
 <div class="demo-banner" id="demoBanner" hidden>DEMO MODE · SAMPLE DRESSES · PIN 1234 = CLS STAFF · 5678 = HOUSE OF ROAN</div>
 
 <nav aria-label="Main">
-  <a class="brand" href="https://hellotalentff-max.github.io/clicklounge/" aria-label="Click Lounge Studio home"><img src="cls-logo.png" alt="Click Lounge Studio"></a>
+  <a class="brand" href="https://hellotalentff-max.github.io/clicklounge/" aria-label="ClickLounge Studio packages"><img src="https://hellotalentff-max.github.io/clicklounge/STUDIO_LOGO_GIF.gif" alt="ClickLounge Studio"></a>
   <div class="nav-links">
     <a href="https://hellotalentff-max.github.io/clicklounge/">← Main site</a>
     <button class="nav-btn" id="staffBtn" type="button">Staff</button>
@@ -231,8 +231,8 @@ footer{background:var(--green-dark);color:#fff;padding:2.2rem 1.25rem;text-align
   <header class="hero">
     <span class="eyebrow">Photoshoot Wardrobe</span>
     <div class="lockup">
-      <video class="cls" poster="cls-logo.png" autoplay muted playsinline preload="auto"
-           aria-label="Click Lounge Studio" title="Click Lounge Studio">
+      <video class="cls" poster="https://hellotalentff-max.github.io/clicklounge/STUDIO_LOGO_GIF.gif" autoplay muted playsinline preload="auto"
+           aria-label="ClickLounge Studio" title="ClickLounge Studio">
         <source src="cls-logo.mp4" type="video/mp4">
         <source src="cls-logo.webm" type="video/webm">
       </video>
@@ -301,7 +301,7 @@ footer{background:var(--green-dark);color:#fff;padding:2.2rem 1.25rem;text-align
 
 <footer>
   <div class="foot-lockup">
-    <img src="cls-logo.png" alt="Click Lounge Studio">
+    <a href="https://hellotalentff-max.github.io/clicklounge/" title="ClickLounge Studio packages"><img src="https://hellotalentff-max.github.io/clicklounge/STUDIO_LOGO_GIF.gif" alt="ClickLounge Studio"></a>
     <span class="x" aria-hidden="true">×</span>
     <span class="foot-hor">House of Roan</span>
   </div>
@@ -309,7 +309,7 @@ footer{background:var(--green-dark);color:#fff;padding:2.2rem 1.25rem;text-align
     U302 Decoro Bldg. Circumferential Rd. San Roque, Antipolo City<br>
     +63976 022 1462 · <a href="mailto:clickloungestudio@gmail.com">clickloungestudio@gmail.com</a>
   </div>
-  <div class="footer-bottom">© 2026 Click Lounge Studio · Dresses by House of Roan Dress Rental Studio</div>
+  <div class="footer-bottom">© 2026 ClickLounge Studio · Dresses by House of Roan Dress Rental Studio</div>
 </footer>
 
 <div id="modalRoot"></div>
@@ -685,7 +685,7 @@ function renderStaff() {
         <div class="rent-meta">Pick up ${fmtLong(r.pickup)} → return ${fmtLong(r.returnBy)}${r.eventDate ? ' · event ' + fmt(r.eventDate) : ''}${locked ? ' · dress back ' + fmt(r.availableAgain) : ''}<br>
           ${[r.payStatus, r.clientPrice === 0 ? 'Dress free to client' : r.clientPrice ? 'Client ' + peso(r.clientPrice) : '', r.rate ? peso(r.rate) + ' to HOR' : '', r.contact, r.clsBookingId].filter(Boolean).map(esc).join(' · ')}${hold}${r.notes ? '<br><i>' + esc(r.notes) + '</i>' : ''}</div>
         <div class="rent-actions">
-          ${locked ? '<span class="hint">Click Lounge Studio booking — dates only</span>' : (NEXT[r.status] || []).map(s => `<button class="btn btn-sm ${s === 'Cancelled' ? 'btn-danger' : s === 'Confirmed' ? 'btn-green' : 'btn-line'}" data-status="${s}" data-id="${esc(r.rentalId)}">${s === 'Cancelled' ? 'Cancel' : 'Mark ' + s}</button>`).join('')}
+          ${locked ? '<span class="hint">ClickLounge Studio booking — dates only</span>' : (NEXT[r.status] || []).map(s => `<button class="btn btn-sm ${s === 'Cancelled' ? 'btn-danger' : s === 'Confirmed' ? 'btn-green' : 'btn-line'}" data-status="${s}" data-id="${esc(r.rentalId)}">${s === 'Cancelled' ? 'Cancel' : 'Mark ' + s}</button>`).join('')}
           ${!locked && r.status !== 'Cancelled' ? `<select class="input btn-sm" style="width:auto;min-height:34px;padding:.3rem .5rem;font-size:.76rem" data-pay="${esc(r.rentalId)}" aria-label="Payment status">
             ${((state.config && state.config.payStatuses) || []).map(p => `<option ${p === r.payStatus ? 'selected' : ''}>${esc(p)}</option>`).join('')}</select>` : ''}
         </div>
@@ -831,7 +831,7 @@ const Demo = (() => {
       if (b.action === 'whoami') return wait({ role });
       if (b.action === 'listRentals') { const f = isoToDay(b.from), t = isoToDay(b.to); return wait(rentals.map(red).filter(r => isoToDay(r.pickup) <= t && isoToDay(r.availableAgain) > f).sort((a, c) => a.pickup < c.pickup ? -1 : 1)); }
       if (b.action === 'reserve') {
-        if (role === 'partner' && cls(b.co)) return fail('Only Click Lounge Studio can book the CLS packages.');
+        if (role === 'partner' && cls(b.co)) return fail('Only ClickLounge Studio can book the CLS packages.');
         const r = { id: 'HR-DEMO-' + (++seq), dress: b.dress, renter: b.renter, co: b.co, status: 'Reserved', event: isoToDay(b.eventDate), pay: 'Unpaid', contact: b.contact || '', clsId: b.clsBookingId || '', notes: b.notes || '', hold: Date.now() + 48 * 3600e3,
                     pickup: b.pickup ? isoToDay(b.pickup) : null, ret: b.returnDate ? isoToDay(b.returnDate) : null };
         const d = dresses.find(x => x.name === b.dress); r.rate = price(d, b.co);
@@ -840,7 +840,7 @@ const Demo = (() => {
         rentals.push(r); return wait(red(r));
       }
       const r = rentals.find(x => x.id === b.rentalId); if (!r) return fail('Rental not found');
-      if (role === 'partner' && cls(r.co)) return fail('That booking belongs to Click Lounge Studio.');
+      if (role === 'partner' && cls(r.co)) return fail('That booking belongs to ClickLounge Studio.');
       if (b.action === 'setStatus') { r.status = b.status; if (b.status === 'Returned' && (r.ret == null || r.ret > T)) r.ret = Math.max(T, win(r).s); if (b.status === 'Picked Up' && r.pickup == null) r.pickup = win(r).s; return wait(red(r)); }
       if (b.action === 'updateRental') { if (b.payStatus) r.pay = b.payStatus; return wait(red(r)); }
       return fail('Unknown action');
