@@ -280,6 +280,7 @@ footer{background:var(--green-dark);color:#fff;padding:2.2rem 1.25rem;text-align
       </div>
 
       <div class="panel-tools" id="filters" style="border-top:1px solid var(--line);padding-top:.8rem">
+        <div class="chips" id="sizeChips" role="group" aria-label="Size"></div>
         <div class="chips" id="catChips" role="group" aria-label="Category"></div>
         <label class="toggle" id="availToggleWrap"><input type="checkbox" id="availOnly"> Available only</label>
         <label class="toggle" style="gap:.5rem"><span class="lbl" style="letter-spacing:.1em">Sort</span>
@@ -373,7 +374,7 @@ async function apiPost(body) {
 }
 
 /* ═════════════════════ STATE ═════════════════════ */
-const state = { co: 'CLS Prestige', sort: 'name', role: null, tab: 'date', date: null, cat: 'All', availOnly: false, config: null, dresses: [], avail: null,
+const state = { co: 'CLS Prestige', sort: 'name', role: null, tab: 'date', date: null, cat: 'All', size: 'All', availOnly: false, config: null, dresses: [], avail: null,
                 pin: store.get('hor_pin'), rentals: [] };
 state.role = state.pin ? store.get('hor_role') : null;
 
@@ -425,13 +426,36 @@ function toast(msg, bad) {
 }
 function skeletons(n) { $('#results').innerHTML = `<div class="grid">${'<div class="skeleton"></div>'.repeat(n)}</div>`; }
 
+/* Sizes are typed in the sheet as a range ("S-M") or a single size ("M").
+   A dress matches a chosen size when that size falls inside its range. */
+const SIZE_ORDER = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+const SIZE_ALIAS = { '2XL': 'XXL', '3XL': 'XXXL', 'XXXL': 'XXXL' };
+function sizeSpan(str) {                                       // → [lo, hi] indexes, or null if we can't read it
+  const toks = String(str || '').toUpperCase().split(/[^A-Z0-9]+/).filter(Boolean).map(t => SIZE_ALIAS[t] || t);
+  const idx = toks.map(t => SIZE_ORDER.indexOf(t));
+  if (!idx.length || idx.some(i => i < 0)) return null;
+  return [Math.min.apply(null, idx), Math.max.apply(null, idx)];
+}
+function coversSize(d, size) {
+  if (size === 'All') return true;
+  const span = sizeSpan(d.size);
+  if (!span) return true;                                      // size missing or unreadable: don't hide the dress
+  const i = SIZE_ORDER.indexOf(size);
+  return i >= span[0] && i <= span[1];
+}
+
 function renderChips() {
+  const offered = SIZE_ORDER.filter(sz => state.dresses.some(d => sizeSpan(d.size) && coversSize(d, sz)));
+  if (state.size !== 'All' && !offered.includes(state.size)) state.size = 'All';
+  $('#sizeChips').innerHTML = offered.length > 1
+    ? ['All', ...offered].map(sz => `<button type="button" class="chip" aria-pressed="${sz === state.size}" data-size="${esc(sz)}">${sz === 'All' ? 'All sizes' : esc(sz)}</button>`).join('')
+    : '';
   const cats = ['All', ...new Set(state.dresses.map(d => d.category).filter(Boolean))];
   if (!cats.includes(state.cat)) state.cat = 'All';
   $('#catChips').innerHTML = cats.length > 2 ? cats.map(c => `<button type="button" class="chip" aria-pressed="${c === state.cat}" data-cat="${esc(c)}">${esc(c)}</button>`).join('') : '';
 }
 function filtered(list) {
-  const out = list.filter(d => (state.cat === 'All' || d.category === state.cat) && (!state.availOnly || d.status !== 'Booked'));
+  const out = list.filter(d => (state.cat === 'All' || d.category === state.cat) && coversSize(d, state.size) && (!state.availOnly || d.status !== 'Booked'));
   if (state.sort === 'name') return out;                      // already in Dresses-tab order
   const n = d => { const r = rateOf(d); return r == null ? Infinity : r; };
   return out.slice().sort((a, b) => state.sort === 'price-asc' ? n(a) - n(b) : n(b) - n(a));
@@ -454,8 +478,11 @@ function renderDate() {
   const a = state.avail; if (!a) return;
   const list = filtered(a.dresses);
   $('#resultsTitle').textContent = 'For ' + fmt(a.eventDate, { weekday: 'long', month: 'long', day: 'numeric' });
-  $('#resultsCount').textContent = `${a.available} of ${a.dresses.length} available`;
-  if (!list.length) { $('#results').innerHTML = `<div class="empty"><span class="script">Oh no</span>No dresses match. Try another date or category.</div>`; return; }
+  const filtering = state.size !== 'All' || state.cat !== 'All' || state.availOnly;
+  $('#resultsCount').textContent = filtering
+    ? `${list.filter(d => d.status === 'Available').length} of ${list.length} available`
+    : `${a.available} of ${a.dresses.length} available`;
+  if (!list.length) { $('#results').innerHTML = `<div class="empty"><span class="script">Oh no</span>No dresses match. Try another date, size or category.</div>`; return; }
   $('#results').innerHTML = `<div class="grid">${list.map(d => {
     const ok = d.status === 'Available';
     return `<article class="card ${ok ? '' : 'is-booked'}">
@@ -474,8 +501,11 @@ function renderDate() {
 function renderBrowse() {
   const list = filtered(state.dresses);
   $('#resultsTitle').textContent = 'The collection';
-  $('#resultsCount').textContent = `${state.dresses.length} dress${state.dresses.length === 1 ? '' : 'es'}`;
-  if (!list.length) { $('#results').innerHTML = `<div class="empty"><span class="script">Coming soon</span>No dresses listed yet.</div>`; return; }
+  const total = state.dresses.length;
+  $('#resultsCount').textContent = list.length === total ? `${total} dress${total === 1 ? '' : 'es'}` : `${list.length} of ${total} dresses`;
+  if (!list.length) { $('#results').innerHTML = total
+    ? `<div class="empty"><span class="script">Oh no</span>No dresses match. Try another size or category.</div>`
+    : `<div class="empty"><span class="script">Coming soon</span>No dresses listed yet.</div>`; return; }
   $('#results').innerHTML = `<div class="grid">${list.map(d => `<article class="card">
       <div class="photo">${photoHtml(d)}</div>
       <div class="card-body">
@@ -722,6 +752,7 @@ document.addEventListener('click', e => {
   if (co) { state.co = co.dataset.co; document.querySelectorAll('#coSeg button').forEach(b => b.setAttribute('aria-pressed', b === co)); refresh(); return; }
   const tab = t.closest('.sub-tab'); if (tab) return selectTab(tab.dataset.tab);
   const chip = t.closest('[data-cat]'); if (chip) { state.cat = chip.dataset.cat; renderChips(); state.tab === 'date' ? renderDate() : state.tab === 'browse' ? renderBrowse() : renderStaff(); return; }
+  const sz = t.closest('[data-size]'); if (sz) { state.size = sz.dataset.size; renderChips(); state.tab === 'date' ? renderDate() : state.tab === 'browse' ? renderBrowse() : renderStaff(); return; }
   const cal = t.closest('[data-cal]'); if (cal) return openCalendar(cal.dataset.cal);
   const rs = t.closest('[data-reserve]'); if (rs) { const date = rs.dataset.date; $('#modalRoot').innerHTML = ''; return reserve(rs.dataset.reserve, date); }
   const st = t.closest('[data-status]'); if (st) return setStatus(st.dataset.id, st.dataset.status, st);
