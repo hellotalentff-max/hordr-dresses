@@ -498,9 +498,13 @@ function renderChips() {
 }
 function filtered(list) {
   const out = list.filter(d => inShop(d) && (state.cat === 'All' || d.category === state.cat) && coversSize(d, state.size) && (!state.availOnly || d.status !== 'Booked'));
-  if (state.sort === 'name') return out;                      // already in Dresses-tab order
+  const byName = (a, b) => String(a.name).localeCompare(String(b.name), 'en', { sensitivity: 'base', numeric: true });
+  if (state.sort === 'name') return out.slice().sort(byName);
+  // price for this package first; on Prestige every dress is FREE, so ties fall back to the dress's regular rate
   const n = d => { const r = rateOf(d); return r == null ? Infinity : r; };
-  return out.slice().sort((a, b) => state.sort === 'price-asc' ? n(a) - n(b) : n(b) - n(a));
+  const reg = d => d.regularRate == null ? Infinity : d.regularRate;
+  const dir = state.sort === 'price-asc' ? 1 : -1;
+  return out.slice().sort((a, b) => dir * (n(a) - n(b)) || dir * (reg(a) - reg(b)) || byName(a, b));
 }
 
 /* ═════════════════════ TAB: date ═════════════════════ */
