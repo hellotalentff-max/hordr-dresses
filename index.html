@@ -294,6 +294,11 @@ footer{background:var(--green-dark);color:#fff;padding:2.2rem 1.25rem;text-align
           </select></label>
       </div>
     </section>
+    <div id="llBanner" hidden style="background:#fbefe7;border:2px solid #d79068;border-radius:14px;padding:14px 16px;margin:16px 0 0;line-height:1.55;">
+      <b>Choosing a gown for your Look Lab package.</b> Tap <b>Add to my package</b> on the gown you like and we'll take you back with its price in your total.
+      Our staff will reserve the gown for you when they confirm your booking.
+      <div style="margin-top:8px;"><a id="llBack" href="#" style="font-weight:600;color:#a8653f;">&larr; Back to the Look Lab without a gown</a></div>
+    </div>
 
     <div class="results-head">
       <h2 class="results-title" id="resultsTitle">Dresses</h2>
@@ -336,6 +341,22 @@ const CONFIG = {
     'Serra':         { logo: '', folder: 'dresses/serra/' }
   }
 };
+/* Look Lab hand-off: the Look Lab sends clients here with ?return=<its page>. They pick a gown and
+   go back with ?gown=<name>; the Look Lab adds its price to their total. Staff still make the reservation. */
+const LL_RETURN = (() => {
+  try {
+    const r = new URLSearchParams(location.search).get('return'); if (!r) return '';
+    const u = new URL(r);
+    return /(^|\.)clickloungestudio\.com$|^hellotalentff-max\.github\.io$|^localhost$/.test(u.hostname) ? u.href : '';
+  } catch (e) { return ''; }
+})();
+function llBackTo(params) {
+  const u = new URL(LL_RETURN);
+  Object.keys(params).forEach(k => { if (params[k]) u.searchParams.set(k, params[k]); });
+  u.hash = 'addons';
+  location.href = u.href;
+}
+const reserveLabel = staffText => state.pin ? staffText : LL_RETURN ? 'Add to my package' : 'Reserve this dress';
 const shopInfo = name => CONFIG.SHOPS[name] || { logo: '', folder: CONFIG.PHOTO_FOLDER + slug(name) + '/' };
 const brandOf = d => (d && d.brand) || CONFIG.DEFAULT_SHOP;
 
@@ -537,7 +558,7 @@ function renderDate() {
         <div class="card-meta">${esc([brandOf(d), d.category, d.size, d.color].filter(Boolean).join(' · '))}</div>
         ${rateFor(d)}
         ${ok ? '' : `<div class="card-free">Free again from ${fmt(d.nextFreeFrom)}</div>`}
-        ${ok ? `<button class="btn btn-green" data-reserve="${esc(d.name)}">${state.pin ? 'Reserve' : 'Reserve this dress'}</button>`
+        ${ok ? `<button class="btn btn-green" data-reserve="${esc(d.name)}">${reserveLabel('Reserve')}</button>`
              : `<button class="btn btn-line" data-cal="${esc(d.name)}">See open dates</button>`}
       </div></article>`; }).join('')}</div>`;
 }
@@ -558,6 +579,7 @@ function renderBrowse() {
         <div class="card-meta">${esc([brandOf(d), d.category, d.size, d.color].filter(Boolean).join(' · '))}</div>
         ${rateFor(d)}
         <button class="btn btn-line" data-cal="${esc(d.name)}">See open dates</button>
+        ${LL_RETURN && !state.pin ? `<button class="btn btn-green" data-reserve="${esc(d.name)}">Add to my package</button>` : ''}
       </div></article>`).join('')}</div>`;
 }
 
@@ -615,7 +637,7 @@ async function openCalendar(name, preselect) {
     const pu = dayToIso(isoToDay(sel) - rule.lead), rt = dayToIso(isoToDay(sel) - rule.lead + rule.days - 1);
     box.innerHTML = `<div class="pick"><div class="pick-line">Shoot: <b>${fmtLong(sel)}</b><br>
         Pick up <b>${fmtLong(pu)}</b> · return by <b>${fmtLong(rt)}</b>${rateFor(d) ? '<br>' + rateFor(d).replace('card-price', 'card-price" style="margin-top:.3rem') : ''}</div>
-      <div class="actions"><button class="btn btn-green" data-reserve="${esc(d.name)}" data-date="${sel}">${state.pin ? 'Reserve for a client' : 'Reserve this dress'}</button></div></div>`;
+      <div class="actions"><button class="btn btn-green" data-reserve="${esc(d.name)}" data-date="${sel}">${reserveLabel('Reserve for a client')}</button></div></div>`;
   }
   el.addEventListener('click', e => {
     const nav = e.target.closest('[data-nav]'); const day = e.target.closest('[data-day]');
@@ -630,6 +652,7 @@ async function openCalendar(name, preselect) {
 function reserve(name, date) {
   date = date || state.date;
   if (state.pin) return openRentalForm({ dress: name, eventDate: date, co: state.co });
+  if (LL_RETURN) return llBackTo({ gown: name, gdate: date || '' });
   // Public: hand off to Messenger with the details copied
   const d = state.dresses.find(x => x.name === name) || { name };
   const msg = `Hi! I'd like to reserve "${name}" (${brandOf(d)}) for my ${CONFIG.CO_LABEL[state.co] || 'photo'} shoot on ${fmt(date, { weekday: 'long', month: 'long', year: 'numeric' })}.`;
@@ -851,6 +874,11 @@ async function init() {
     if (q.get('date')) { state.date = q.get('date'); $('#dateInput').value = state.date; }
     refresh();
     if (q.get('dress')) openCalendar(q.get('dress'), q.get('date'));
+    if (LL_RETURN) {
+      $('#llBanner').hidden = false;
+      $('#llBack').addEventListener('click', e => { e.preventDefault(); llBackTo({}); });
+      if (!state.date) selectTab('browse');              // no date yet: show the whole collection with prices
+    }
   } catch (e) {
     $('#results').innerHTML = `<div class="empty">Couldn't load the dress list.<br><small>${esc(e.message)}</small><br><button class="btn" style="margin-top:14px" onclick="location.reload()">Try again</button></div>`;
   }
